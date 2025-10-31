@@ -1,56 +1,28 @@
-import { Link } from "@heroui/link";
-import { Snippet } from "@heroui/snippet";
-import { Code } from "@heroui/code";
-import { button as buttonStyles } from "@heroui/theme";
+import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
+import { createClient } from "@/utils/supabase/server";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+export default async function Home() {
+  const supabase = await createClient();
+  const { error } = await supabase.from("categories").select("id").limit(1);
+  const connected = !error;
 
-export default function Home() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
+    <section className="flex flex-col items-center justify-center gap-6 py-16">
+      <h1 className="text-3xl md:text-5xl font-semibold text-center">
+        Sumbar Smart Portal
+      </h1>
+
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-default-500">Supabase connection</span>
+        <Chip color={connected ? "success" : "danger"} variant="flat">
+          {connected ? "Connected" : "Not connected"}
+        </Chip>
       </div>
 
-      <div className="flex gap-3">
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
+      <Button color="primary" variant="solid">
+        Contoh Tombol HeroUI
+      </Button>
     </section>
   );
 }
