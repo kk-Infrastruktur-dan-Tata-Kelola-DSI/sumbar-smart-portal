@@ -23,6 +23,10 @@
   }
 }
 
+*{
+  scroll-behavior: smooth;
+}
+
 .animate-in {
   animation: fadeIn 0.3s ease-out;
 }

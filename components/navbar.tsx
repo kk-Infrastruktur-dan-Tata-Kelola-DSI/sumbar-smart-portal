@@ -47,22 +47,14 @@ export const Navbar = () => {
     ];
 
     const informasiDropdownItems = [
-        { name: "Berita", href: "/informasi" },
-        { name: "Infografis", href: "/informasi#infografis" },
-        { name: "Foto", href: "/informasi#foto" },
-        { name: "Video", href: "/informasi#video" },
-        { name: "Agenda", href: "/informasi#agenda" },
+        { name: "Informasi", href: "/informasi" },
+        { name: "Berita", href: "/informasi/berita" },
+        { name: "Foto", href: "/informasi/foto" },
+        { name: "Video", href: "/informasi/video" },
+        { name: "Infografis", href: "/informasi/infografis" },
+        { name: "Agenda", href: "/informasi/agenda" },
         { name: "Pedoman Teknis", href: "/informasi#pedoman-teknis" },
     ];
-
-    const layananDropdownItems = [
-        { name: "Standar Layanan Publik", href: "/layanan" },
-        { name: "Maklumat Pelayanan", href: "/layanan#maklumat-pelayanan" },
-        { name: "Pengelolaan Pengaduan", href: "/layanan#pengelolaan-pengaduan" },
-        { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
-    ];
-
-
 
     const navLinks = [
         { name: "Beranda", href: "/" },
@@ -70,7 +62,7 @@ export const Navbar = () => {
         { name: "Informasi", href: "/informasi", hasDropdown: true, dropdownItems: informasiDropdownItems },
         { name: "Pengumuman", href: "/pengumuman"},
         { name: "Anti Hoax", href: "/anti_hoax" },
-        { name: "Informasi Layanan", href: "/layanan", hasDropdown: true, dropdownItems: layananDropdownItems },
+        { name: "Informasi Layanan", href: "/informasi-layanan"},
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
         { name: "Inovasi", href: "/inovasi" },
@@ -141,7 +133,7 @@ export const Navbar = () => {
                                             title={
                                                 <span className={clsx(
                                                     "text-base font-medium",
-                                                    (isActive || isSubItemActive) && "text-[#FFB900] font-semibold"
+                                                    (isActive || isSubItemActive) && "text-white bg-[#FFB900] rounded-full font-semibold px-4 py-2"
                                                 )}>
                                                     {item.name}
                                                 </span>
@@ -156,7 +148,7 @@ export const Navbar = () => {
                                                             href={subItem.href}
                                                             className={clsx(
                                                                 "w-full text-sm py-2",
-                                                                isSubActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                                                isSubActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                                             )}
                                                         >
                                                             {subItem.name}
@@ -175,7 +167,7 @@ export const Navbar = () => {
                                 <Link
                                     className={clsx(
                                         "w-full block text-base font-medium py-2",
-                                        isActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                        isActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                     )}
                                     href={item.href}
                                 >
