@@ -35,13 +35,15 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <Navbar/>
-          <main className="container mx-auto max-w-4xl px-6 py-8">
-            <AiAssistant />
-            {children}
-          </main>
+          <div className="flex flex-col min-h-screen">
+            <Navbar/>
+            <main className="flex-1">
+              <AiAssistant />
+              {children}
+            </main>
+            <Footer />
+          </div>
         </Providers>
-        {/* <Footer /> */}
       </body>
     </html>
   );
