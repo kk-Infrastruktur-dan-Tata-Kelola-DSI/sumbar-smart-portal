@@ -118,32 +118,10 @@ export const Navbar = () => {
                     </NavbarBrand>
                 </NavbarContent>
 
-                {/* Kanan: Search + Icons */}
+                {/* Kanan */}
                 <NavbarContent justify="end" className="gap-1 flex-shrink-0">
                     <NavbarItem className="hidden lg:flex w-auto max-w-[300px]">
                         {searchInput}
-                    </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <Button 
-                            isIconOnly 
-                            variant="light" 
-                            aria-label="Notifikasi" 
-                            size="sm"
-                            className="w-8 h-8 min-w-8"
-                        >
-                            <Bell className="w-4 h-4" />
-                        </Button>
-                    </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <Button 
-                            isIconOnly 
-                            variant="light" 
-                            aria-label="Bahasa"
-                            size="sm"
-                            className="w-8 h-8 min-w-8"
-                        >
-                            <Globe className="w-4 h-4" />
-                        </Button>
                     </NavbarItem>
                 </NavbarContent>
 
@@ -151,28 +129,6 @@ export const Navbar = () => {
                 <NavbarMenu className="pt-4 px-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
                     <NavbarMenuItem className="lg:hidden mb-3">
                         {searchInput}
-                    </NavbarMenuItem>
-                    
-                    {/* Mobile Icons Section */}
-                    <NavbarMenuItem className="md:hidden mb-3 flex flex-row gap-2 items-center pb-3 border-b border-divider">
-                        <Button 
-                            variant="flat" 
-                            aria-label="Notifikasi" 
-                            size="sm"
-                            startContent={<Bell className="w-4 h-4" />}
-                            className="flex-1"
-                        >
-                            Notifikasi
-                        </Button>
-                        <Button 
-                            variant="flat" 
-                            aria-label="Bahasa"
-                            size="sm"
-                            startContent={<Globe className="w-4 h-4" />}
-                            className="flex-1"
-                        >
-                            Bahasa
-                        </Button>
                     </NavbarMenuItem>
                     
                     {navLinks.map((item, index) => {
@@ -198,7 +154,7 @@ export const Navbar = () => {
                                             title={
                                                 <span className={clsx(
                                                     "text-base font-medium",
-                                                    (isActive || isSubItemActive) && "text-[#FFB900] font-semibold"
+                                                    (isActive || isSubItemActive) && "text-white bg-[#FFB900] rounded-full font-semibold px-4 py-2"
                                                 )}>
                                                     {item.name}
                                                 </span>
@@ -213,7 +169,7 @@ export const Navbar = () => {
                                                             href={subItem.href}
                                                             className={clsx(
                                                                 "w-full text-sm py-2",
-                                                                isSubActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                                                isSubActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                                             )}
                                                         >
                                                             {subItem.name}
@@ -232,7 +188,7 @@ export const Navbar = () => {
                                 <Link
                                     className={clsx(
                                         "w-full block text-base font-medium py-2",
-                                        isActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                        isActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                     )}
                                     href={item.href}
                                 >
