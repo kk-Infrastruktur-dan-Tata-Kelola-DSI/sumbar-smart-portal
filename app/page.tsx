@@ -1,15 +1,72 @@
+"use client";
+
+import React from "react";
 import { Button } from "@heroui/button";
-import { Chip } from "@heroui/chip";
-import { createClient } from "@/utils/supabase/server";
+import { Skeleton } from "@heroui/skeleton";
 import Image from "next/image";
 import LayananCarousel from "@/components/LayananCarousel";
 
-import placeholderHorizontal from "@/public/images/placeholder-horizontal.jpg";
+export default function Home() {
+  const [loading, setLoading] = React.useState(true);
 
-export default async function Home() {
-  const supabase = await createClient();
-  const { error } = await supabase.from("categories").select("id").limit(1);
-  const connected = !error;
+  React.useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white min-h-screen">
+        {/* Hero Skeleton */}
+        <section className="relative max-w-5xl mx-auto mt-8">
+          <Skeleton className="w-full h-[420px] rounded-t-xl" />
+        </section>
+
+        {/* Stats Skeleton */}
+        <section className="max-w-5xl mx-auto flex relative -mt-12 z-30 px-4">
+          <div className="flex w-full shadow-xl rounded-t-[32px] overflow-hidden">
+            <div className="bg-white px-10 py-7 flex-1 border-r border-gray-100">
+              <Skeleton className="h-4 w-24 mb-2" />
+              <Skeleton className="h-8 w-32" />
+            </div>
+            <div className="bg-white px-10 py-7 flex-1">
+              <Skeleton className="h-4 w-24 mb-2 ml-auto" />
+              <Skeleton className="h-8 w-16 ml-auto" />
+            </div>
+          </div>
+        </section>
+
+        {/* Video Section Skeleton */}
+        <section className="bg-yellow-400 py-16 mt-16">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex gap-8">
+              <div className="md:w-1/3">
+                <Skeleton className="h-8 w-48 mb-4" />
+                <Skeleton className="h-16 w-full" />
+              </div>
+              <div className="md:w-2/3 grid grid-cols-2 gap-8">
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-64 rounded-xl" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* News Section Skeleton */}
+        <section className="bg-white py-16">
+          <div className="max-w-6xl mx-auto px-4">
+            <Skeleton className="h-10 w-64 mx-auto mb-8" />
+            <div className="grid grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-96 rounded-xl" />
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white min-h-screen">
@@ -72,7 +129,7 @@ export default async function Home() {
 
       {/* Statistik Section */}
       <section className="max-w-5xl mx-auto flex relative -mt-12 z-30 px-4">
-        <div className="flex w-full shadow-xl rounded-t-[32px] overflow-hidden">
+        <div className="flex w-full border border-gray-200 shadow-sm rounded-t-[32px] overflow-hidden">
           <div className="bg-white px-10 py-7 flex-1 border-r border-gray-100">
             <div className="text-sm font-semibold text-gray-800 mb-1.5 text-left tracking-wide">
               Penduduk
@@ -114,7 +171,7 @@ export default async function Home() {
             {/* Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full z-10" style={{ gridAutoRows: 'max-content' }}>
               {/* Card 1 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden self-start">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden self-start">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
@@ -148,7 +205,7 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 2 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-16">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden mt-16">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
@@ -181,7 +238,7 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 3 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden self-start">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden self-start">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
@@ -214,7 +271,7 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 4 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-16">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden mt-16">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
@@ -269,7 +326,7 @@ export default async function Home() {
             <div className="md:w-2/3 flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Card Berita 1 */}
-                <div className="bg-white rounded-xl border border-yellow-400 shadow-sm overflow-hidden flex flex-col">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
                       src="images/placeholder-horizontal.jpg"
@@ -338,7 +395,7 @@ export default async function Home() {
                   </div>
                 </div>
                 {/* Card Berita 2 */}
-                <div className="bg-white rounded-xl border border-yellow-400 shadow-sm overflow-hidden flex flex-col">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
                       src="images/placeholder-horizontal.jpg"
@@ -424,7 +481,7 @@ export default async function Home() {
               </div>
               <div className="flex flex-col gap-4">
                 {/* Pengumuman 1 */}
-                <div className="bg-white rounded-xl shadow-sm border border-yellow-300 p-4 flex items-center gap-4">
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 p-4 flex items-center gap-4">
                   <div className="flex-1">
                     <div className="font-semibold text-gray-900">
                       Pengumuman Seleksi CPNS Provinsi Sumbar 2024
@@ -456,7 +513,7 @@ export default async function Home() {
                   <span className="text-gray-400 ml-2">→</span>
                 </div>
                 {/* Pengumuman 2 */}
-                <div className="bg-white rounded-xl shadow-sm border border-yellow-300 p-4 flex items-center gap-4">
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 p-4 flex items-center gap-4">
                   <div className="flex-1">
                     <div className="font-semibold text-gray-900">
                       Pembukaan Pendaftaran Beasiswa Sumbar Cerdas
@@ -488,7 +545,7 @@ export default async function Home() {
                   <span className="text-gray-400 ml-2">→</span>
                 </div>
                 {/* Pengumuman 3 */}
-                <div className="bg-white rounded-xl shadow-sm border border-blue-400 p-4 flex items-center gap-4">
+                <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 p-4 flex items-center gap-4">
                   <div className="flex-1">
                     <div className="font-semibold text-gray-900">
                       Jadwal Pemeliharaan Sistem Informasi

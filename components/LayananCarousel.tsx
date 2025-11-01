@@ -88,7 +88,7 @@ export default function LayananCarousel() {
                 <a
                   key={`${it.label}-${i}`}
                   href={it.href ?? "#"}
-                  className={`flex flex-col items-center justify-center w-48 h-56 rounded-xl ${it.bgClass} hover:scale-105 transition-transform duration-300 cursor-pointer shadow-md text-center px-3`}
+                  className="flex flex-col items-center justify-center w-48 h-56 hover:scale-105 transition-transform duration-300 cursor-pointer text-center px-3"
                 >
                   <img src={it.imgSrc} alt={it.label} className="h-16 mb-4" onError={onImgError} />
                   <span className="text-lg font-semibold text-gray-800 leading-snug">{it.label}</span>
@@ -102,7 +102,7 @@ export default function LayananCarousel() {
                 <a
                   key={`dup-${it.label}-${i}`}
                   href={it.href ?? "#"}
-                  className={`flex flex-col items-center justify-center w-48 h-56 rounded-xl ${it.bgClass} hover:scale-105 transition-transform duration-300 cursor-pointer shadow-md text-center px-3`}
+                  className="flex flex-col items-center justify-center w-48 h-56 hover:scale-105 transition-transform duration-300 cursor-pointer text-center px-3"
                 >
                   <img src={it.imgSrc} alt="" className="h-16 mb-4" onError={onImgError} />
                   <span className="text-lg font-semibold text-gray-800 leading-snug">{it.label}</span>
