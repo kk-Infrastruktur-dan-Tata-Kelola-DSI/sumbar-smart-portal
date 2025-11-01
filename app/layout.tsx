@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 import { fontSans } from "@/config/fonts";
 import { ThemeSwitch } from "@/components/theme-switch";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Sumbar Smart Portal",
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html lang="id">
       <head />
       <body
         className={clsx(
@@ -38,6 +39,7 @@ export default function RootLayout({
             {children}
           </main>
         </Providers>
+        <Footer />
       </body>
     </html>
   );
