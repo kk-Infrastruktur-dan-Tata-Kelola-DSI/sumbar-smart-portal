@@ -12,54 +12,51 @@ export default async function Home() {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="relative max-w-5xl mx-auto mt-8 rounded-2xl overflow-hidden shadow-lg">
+      <section className="relative max-w-5xl mx-auto mt-8 rounded-3xl overflow-hidden shadow-xl" style={{ backgroundColor: '#FBC125' }}>
         {/* Background Image */}
         <Image
           src="/images/gunung.png"
           alt="Gunung Sumatera Barat"
           width={1200}
           height={600}
-          className="w-full h-[350px] object-cover"
+          className="w-full h-[420px] object-cover"
           priority
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
         {/* Ornamen Daun */}
         <Image
           src="/images/daun.png"
           alt="Daun"
           width={80}
           height={80}
-          className="absolute left-0 bottom-0"
+          className="absolute left-0 bottom-0 z-10"
         />
         <Image
           src="/images/daun.png"
           alt="Daun"
           width={60}
           height={60}
-          className="absolute right-10 top-20"
+          className="absolute right-10 top-20 z-10"
         />
         <Image
           src="/images/daun.png"
           alt="Daun"
           width={100}
           height={100}
-          className="absolute right-0 bottom-0"
+          className="absolute right-0 bottom-0 z-10"
         />
         {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center px-8">
-          <div className="flex gap-4 mb-6">
-            <button className="bg-yellow-400 text-white font-semibold px-6 py-2 rounded-full shadow hover:bg-yellow-500 transition flex items-center gap-2">
+        <div className="absolute bottom-12 left-12 right-12 flex flex-col items-start z-20">
+          <div className="flex gap-3 mb-5">
+            <button className="bg-yellow-400 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-yellow-500 transition-all flex items-center gap-2">
               Jelajahi Layanan <span className="font-bold">→</span>
             </button>
-            <button className="bg-white text-gray-900 font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-100 transition">
+            <button className="bg-white text-gray-900 font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-gray-100 transition-all">
               Pelajari Lebih Lanjut
             </button>
           </div>
-          <h1 className="text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-red-600 bg-clip-text text-transparent drop-shadow-lg">
-            Provinsi Sumatera Barat
-          </h1>
-          <p className="text-white text-lg text-center max-w-2xl drop-shadow mb-2">
+          <p className="text-white text-sm leading-relaxed max-w-lg drop-shadow-md">
             Portal digital yang menghubungkan pemerintah dan masyarakat. Akses
             layanan publik, informasi terkini, dan berpartisipasi dalam
             pembangunan daerah.
@@ -68,18 +65,18 @@ export default async function Home() {
       </section>
 
       {/* Statistik Section */}
-      <section className="max-w-5xl mx-auto flex">
-        <div className="flex w-full">
-          <div className="bg-white rounded-t-3xl shadow-lg px-8 py-8 flex-1 border-r border-gray-100">
-            <div className="text-lg font-semibold text-gray-900 mb-2 text-left">
+      <section className="max-w-5xl mx-auto flex relative -mt-12 z-30 px-4">
+        <div className="flex w-full shadow-xl rounded-t-[32px] overflow-hidden">
+          <div className="bg-white px-10 py-7 flex-1 border-r border-gray-100">
+            <div className="text-sm font-semibold text-gray-800 mb-1.5 text-left tracking-wide">
               Penduduk
             </div>
             <div className="text-3xl font-bold text-orange-500 text-left">
               5.5M+
             </div>
           </div>
-          <div className="bg-white rounded-t-3xl shadow-lg px-8 py-8 flex-1">
-            <div className="text-lg font-semibold text-gray-900 mb-2 text-right">
+          <div className="bg-white px-10 py-7 flex-1">
+            <div className="text-sm font-semibold text-gray-800 mb-1.5 text-right tracking-wide">
               Kab/Kota
             </div>
             <div className="text-3xl font-bold text-orange-500 text-right">19</div>
@@ -91,7 +88,7 @@ export default async function Home() {
       <section className="bg-yellow-400 py-16">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 px-4">
           {/* Kiri: Judul & Deskripsi */}
-          <div className="md:w-1/3 mb-8 md:mb-0 flex flex-col justify-start">
+          <div className="md:w-1/3 mb-8 md:mb-0 flex flex-col justify-start md:pl-0">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Video Dokumentasi
             </h2>
@@ -109,14 +106,15 @@ export default async function Home() {
               <div className="w-6 h-6 bg-black rounded-full mt-2" />
             </div>
             {/* Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full z-10" style={{ gridAutoRows: 'max-content' }}>
               {/* Card 1 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden self-start">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/xIKrWBqiS-c"
+                    src="https://www.youtube.com/embed/CVPhqts7ZXA"
+                    
                     title="Profil Provinsi Sumatera Barat 2024"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -144,12 +142,12 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 2 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-16">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/VIDEO_ID_2"
+                    src="https://www.youtube.com/embed/s7cB7joWf7I"
                     title="Upacara Hari Jadi Provinsi Sumatera Barat ke-74"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -177,12 +175,12 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 3 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden self-start">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/VIDEO_ID_3"
+                    src="https://www.youtube.com/embed/cG-vZg1SrZI"
                     title="Digitalisasi Pelayanan Publik Sumbar"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -210,34 +208,34 @@ export default async function Home() {
                 </div>
               </div>
               {/* Card 4 */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-16">
                 <div className="relative aspect-video">
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/VIDEO_ID_2"
-                    title="Upacara Hari Jadi Provinsi Sumatera Barat ke-74"
+                    src="https://www.youtube.com/embed/xIKrWBqiS-c"
+                    title="Tatanan Normal Baru Pariwisata Sumatera Barat"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="w-full h-full rounded-t-xl"
                   ></iframe>
                   <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Kegiatan
+                    Pariwisata
                   </span>
                   <span className="absolute bottom-3 right-3 bg-black/80 text-white text-xs font-bold px-2 py-1 rounded">
-                    12:45
+                    10:45
                   </span>
                 </div>
                 <div className="p-4">
                   <div className="font-bold text-gray-900 mb-1">
-                    Upacara Hari Jadi Provinsi Sumatera Barat ke-74
+                    Tatanan Normal Baru Pariwisata Sumatera Barat
                   </div>
                   <div className="text-sm text-gray-600 mb-2">
-                    Peringatan HUT Provinsi Sumbar tahun 2024
+                    Edukasi dan Sosialisasi Protokol Kesehatan Pariwisata Sumbar 2024
                   </div>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
-                    <span>89K</span>
+                    <span>79K</span>
                     <span>25 Okt 2024</span>
                   </div>
                 </div>

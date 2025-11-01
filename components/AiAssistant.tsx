@@ -6,7 +6,8 @@ import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Spinner } from "@heroui/spinner";
 import { Alert } from "@heroui/alert";
-import { NotepadText } from "lucide-react";
+import { NotepadText, Volume2, VolumeX } from "lucide-react";
+import { useTTS } from "@/contexts/TTSContext";
 import type { AIMessage } from "@/types/ai";
 
 export default function AiAssistant() {
@@ -17,6 +18,9 @@ export default function AiAssistant() {
   const [error, setError] = React.useState<string | null>(null);
   const [greeting, setGreeting] = React.useState<string>("Selamat datang");
   const [timeString, setTimeString] = React.useState<string | null>(null);
+  
+  // Use TTS Context
+  const { ttsEnabled, isSpeaking, toggleTTS } = useTTS();
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
@@ -151,9 +155,38 @@ export default function AiAssistant() {
 
   return (
     <>
+      {/* Floating Accessibility/TTS Button */}
+      <div className="fixed bottom-44 right-6 z-50 group" suppressHydrationWarning>
+        <div className="flex items-center gap-2" suppressHydrationWarning>
+          <span className={`${ttsEnabled ? 'bg-success text-success-foreground' : 'bg-danger text-danger-foreground'} px-4 py-2 rounded-full shadow-lg font-medium text-sm whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none`}>
+            {ttsEnabled ? "Mode Aksesibilitas: Aktif" : "Mode Aksesibilitas"}
+          </span>
+          <Button
+            color={ttsEnabled ? "success" : "danger"}
+            radius="full"
+            size="lg"
+            onPress={toggleTTS}
+            isIconOnly
+            aria-label={ttsEnabled ? "Nonaktifkan Mode Aksesibilitas" : "Aktifkan Mode Aksesibilitas"}
+            className="shadow-lg relative"
+          >
+            {isSpeaking ? (
+              <Volume2 className="w-6 h-6 animate-pulse" />
+            ) : ttsEnabled ? (
+              <Volume2 className="w-6 h-6" />
+            ) : (
+              <VolumeX className="w-6 h-6" />
+            )}
+            {ttsEnabled && (
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-success rounded-full animate-pulse" />
+            )}
+          </Button>
+        </div>
+      </div>
+
       {/* Floating Notepad Button */}
-      <div className="fixed bottom-24 right-6 z-50 group">
-        <div className="flex items-center gap-2">
+      <div className="fixed bottom-24 right-6 z-50 group" suppressHydrationWarning>
+        <div className="flex items-center gap-2" suppressHydrationWarning>
           <span className="bg-warning text-warning-foreground px-4 py-2 rounded-full shadow-lg font-medium text-sm whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
             Survei Kepuasan Masyarakat
           </span>
@@ -175,8 +208,8 @@ export default function AiAssistant() {
       </div>
 
       {/* Floating Chat Button */}
-      <div className="fixed bottom-6 right-6 z-50 group">
-        <div className="flex items-center gap-2">
+      <div className="fixed bottom-6 right-6 z-50 group" suppressHydrationWarning>
+        <div className="flex items-center gap-2" suppressHydrationWarning>
           <span className="bg-warning text-warning-foreground px-4 py-2 rounded-full shadow-lg font-medium text-sm whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
             Tanyo Mamak
           </span>
@@ -249,7 +282,7 @@ export default function AiAssistant() {
                     <div>
                       <p className="text-sm font-semibold mb-1" suppressHydrationWarning>👋 {greeting}!</p>
                       <p className="text-sm leading-relaxed text-foreground-700">
-                        Saya Tanyo Mamak. Saya siap membantu Anda menemukan informasi tentang wisata, keuangan daerah, layanan digital, dan berbagai informasi lainnya seputar Sumatera Barat. Ada yang bisa saya bantu?
+                        Saya Mamak. Sebagai Mamak siap membantu Anda menemukan informasi tentang wisata, keuangan daerah, layanan digital, dan berbagai informasi lainnya seputar Sumatera Barat. Ada yang bisa saya bantu?
                       </p>
                       <div className="mt-3 text-xs text-foreground-500" suppressHydrationWarning>
                         {timeString ?? ""}

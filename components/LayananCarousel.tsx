@@ -10,37 +10,54 @@ type LayananItem = {
 };
 
 const items: LayananItem[] = [
-  // Existing 5 items
-  { label: "PPDB Online", imgSrc: "/images/ppdb.png", bgClass: "bg-yellow-200", href: "#" },
-  { label: "Info Publik", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "SuREK", imgSrc: "/images/surek.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Survey Kepuasan Masyarakat", imgSrc: "/images/survey.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "SPJ Online", imgSrc: "/images/spj.png", bgClass: "bg-yellow-200", href: "#" },
-  // New 5 items (icons reuse existing assets to avoid broken images)
-  { label: "Perizinan Online", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-200", href: "#" },
-  { label: "Pajak Daerah", imgSrc: "/images/survey.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Layanan Kesehatan", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Bantuan Sosial", imgSrc: "/images/survey.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Layanan Aduan", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-200", href: "#" },
-  // Additional 10 items
-  { label: "Kependudukan (Dukcapil)", imgSrc: "/images/ppdb.png", bgClass: "bg-yellow-200", href: "#" },
-  { label: "Perpajakan Kendaraan", imgSrc: "/images/survey.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "E-Procurement", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "UMKM & IKM", imgSrc: "/images/spj.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Beasiswa Pendidikan", imgSrc: "/images/ppdb.png", bgClass: "bg-yellow-200", href: "#" },
-  { label: "Transportasi Publik", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-200", href: "#" },
-  { label: "Pariwisata", imgSrc: "/images/survey.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Pertanian & Pangan", imgSrc: "/images/spj.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Lingkungan Hidup", imgSrc: "/images/info-publik.png", bgClass: "bg-yellow-400", href: "#" },
-  { label: "Pelaporan Infrastruktur", imgSrc: "/images/surek.png", bgClass: "bg-yellow-200", href: "#" },
+  // 1. SPJ Online
+  { label: "SPJ Online", imgSrc: "/images/spj.png", bgClass: "bg-transparent" },
+  // 2. Survey Kepuasan Masyarakat
+  { label: "Survey Kepuasan Masyarakat", imgSrc: "/images/survey.png", bgClass: "bg-transparent" },
+  // 3. SuREK
+  { label: "SuREK", imgSrc: "/images/surek.png", bgClass: "bg-transparent" },
+  // 4. Info Publik
+  { label: "Info Publik", imgSrc: "/images/infopublik.png", bgClass: "bg-transparent" },
+  // 5. PPDB Online
+  { label: "PPDB Online", imgSrc: "/images/ppdb.png", bgClass: "bg-transparent" },
+  // 6. SIMBAGDA (Menggantikan SIMBADA dari gambar sebelumnya, saya gunakan SIMBAGDA sesuai urutan)
+  { label: "SIMBAGDA", imgSrc: "/images/simbagda.png", bgClass: "bg-transparent" },
+  // 7. Laptaru
+  { label: "Laptaru", imgSrc: "/images/laptaru.png", bgClass: "bg-transparent" },
+  // 8. E-Sakip Sumbar
+  { label: "E-Sakip Sumbar", imgSrc: "/images/esakip.png", bgClass: "bg-transparent" },
+  // 9. PPID
+  { label: "PPID", imgSrc: "/images/ppid.png", bgClass: "bg-transparent" },
+  // 10. Sumbar Madani
+  { label: "Sumbar Madani", imgSrc: "/images/madani.png", bgClass: "bg-transparent" },
+  // 11. Dashboard pembangunan (Disesuaikan dari Dashboard E-Performance)
+  { label: "Dashboard pembangunan", imgSrc: "/images/pembangunan.png", bgClass: "bg-transparent" },
+  // 12. SIMPEG
+  { label: "SIMPEG", imgSrc: "/images/simpeg.png", bgClass: "bg-transparent" },
+  // 13. Absensi Online
+  { label: "Absensi Online", imgSrc: "/images/absensi.png", bgClass: "bg-transparent" },
+  // 14. Internet satu pintu (Disesuaikan dari Internet Sehat Filter/Satu Pintu)
+  { label: "Internet satu pintu", imgSrc: "/images/satupintu.png", bgClass: "bg-transparent" },
+  // 15. Layanan MCAP (Disesuaikan dari Layanan MDAP)
+  { label: "Layanan MCAP", imgSrc: "/images/mcap.png", bgClass: "bg-transparent" },
+  // 16. Fas-Vidkon
+  { label: "Fas-Vidkon", imgSrc: "/images/fasvidcom.png", bgClass: "bg-transparent" },
+  // 17. JDIH
+  { label: "JDIH", imgSrc: "/images/jdih.png", bgClass: "bg-transparent" },
+  // 18. Pelayanan aplikasi satu pintu
+  { label: "Pelayanan aplikasi satu pintu", imgSrc: "/images/aplikasisatupintu.png", bgClass: "bg-transparent" },
+  // 19. Simtaru (Sistem Informasi Tata Ruang)
+  { label: "Simtaru", imgSrc: "/images/simtaru.png", bgClass: "bg-transparent" },
+  // 20. CSIRT (Computer Security Incident Response Team)
+  { label: "CSIRT", imgSrc: "/images/csirt.png", bgClass: "bg-transparent" },
 ];
 
 export default function LayananCarousel() {
   const [paused, setPaused] = React.useState(false);
+
   const onImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
-    if (target.src.includes("info-publik.png")) return; // avoid loop
-    target.src = "/images/info-publik.png";
+    if (!target.src.includes("info-publik.png")) target.src = "/images/info-publik.png";
   };
 
   return (
@@ -50,7 +67,7 @@ export default function LayananCarousel() {
       </h2>
 
       <div className="relative max-w-7xl mx-auto px-4">
-        {/* Marquee wrapper: hover untuk pause */}
+        {/* Wrapper marquee: hover untuk pause */}
         <div
           className="marquee-wrap"
           onMouseEnter={() => setPaused(true)}
@@ -62,10 +79,10 @@ export default function LayananCarousel() {
             className="marquee"
             style={{
               animationPlayState: paused ? "paused" : "running",
-              ["--duration" as any]: "30s",
+              ["--duration" as any]: "60s", // 💡 Perlambat di sini (semakin besar semakin lambat)
             }}
           >
-            {/* Konten 1 */}
+            {/* Isi utama */}
             <div className="flex gap-8 px-2 pr-8">
               {items.map((it, i) => (
                 <a
@@ -79,7 +96,7 @@ export default function LayananCarousel() {
               ))}
             </div>
 
-            {/* Konten 2 (duplikasi untuk loop mulus) */}
+            {/* Duplikasi untuk loop mulus */}
             <div className="flex gap-8 px-2 pr-8" aria-hidden>
               {items.map((it, i) => (
                 <a
@@ -96,18 +113,26 @@ export default function LayananCarousel() {
         </div>
       </div>
 
-      {/* CSS khusus marquee */}
+      {/* CSS animasi marquee */}
       <style jsx>{`
-        .marquee-wrap { overflow: hidden; }
+        .marquee-wrap {
+          overflow: hidden;
+        }
+
         .marquee {
           display: flex;
           width: max-content;
           will-change: transform;
-          animation: marquee var(--duration, 30s) linear infinite;
+          animation: marquee var(--duration, 60s) linear infinite;
         }
+
         @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
         }
       `}</style>
     </section>

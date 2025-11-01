@@ -139,17 +139,17 @@ export default function StackedCarousel() {
       // Responsive spacing based on container width
       const isTablet = windowWidth >= 768 && windowWidth < 1024;
       
-      // Adjusted base spacing calculations
+      // Adjusted base spacing calculations for better mobile experience
       let baseSpacing = 260; // Default for desktop
       if (isMobile) {
-        baseSpacing = Math.min(windowWidth * 0.25, 120);
+        baseSpacing = Math.min(windowWidth * 0.2, 100); // Reduced spacing for mobile
       } else if (isTablet) {
-        baseSpacing = Math.min(windowWidth * 0.2, 200);
+        baseSpacing = Math.min(windowWidth * 0.18, 180);
       }
       
       // Refined scale and spacing for better visual hierarchy
-      const scaleMultiplier = isMobile ? 0.92 : 0.95;
-      const yOffset = isMobile ? 0.5 : 0.8;
+      const scaleMultiplier = isMobile ? 0.95 : 0.95;
+      const yOffset = isMobile ? 0.3 : 0.8; // Reduced vertical offset for mobile
       
       // Simple horizontal layout for mobile
       if (isMobile) {
@@ -159,7 +159,7 @@ export default function StackedCarousel() {
             y: 0,
             scale: 1,
             opacity: 1,
-            zIndex: 5, // Reduced from 50
+            zIndex: 5,
             rotateY: 0,
             rotateZ: 0,
           };
@@ -167,11 +167,11 @@ export default function StackedCarousel() {
         
         if (position === 1) {
           return {
-            x: windowWidth * 0.75,
+            x: windowWidth * 0.5, // Reduced from 0.75 to prevent overflow
             y: 0,
-            scale: 0.9,
+            scale: 0.85, // Slightly smaller
             opacity: 0.7,
-            zIndex: 4, // Reduced from 40
+            zIndex: 4,
             rotateY: 0,
             rotateZ: 0,
           };
@@ -179,11 +179,11 @@ export default function StackedCarousel() {
         
         if (position === -1) {
           return {
-            x: -windowWidth * 0.75,
+            x: -windowWidth * 0.5, // Reduced from 0.75 to prevent overflow
             y: 0,
-            scale: 0.9,
+            scale: 0.85, // Slightly smaller
             opacity: 0.7,
-            zIndex: 4, // Reduced from 40
+            zIndex: 4,
             rotateY: 0,
             rotateZ: 0,
           };
@@ -195,7 +195,7 @@ export default function StackedCarousel() {
           y: 0,
           scale: 0.8,
           opacity: 0,
-          zIndex: 3, // Reduced from 30
+          zIndex: 3,
           rotateY: 0,
           rotateZ: 0,
         };
@@ -208,7 +208,7 @@ export default function StackedCarousel() {
           y: 0,
           scale: 1,
           opacity: 1,
-          zIndex: 5, // Reduced from 50
+          zIndex: 5,
           rotateY: 0,
           rotateZ: 0,
         };
@@ -220,7 +220,7 @@ export default function StackedCarousel() {
           y: 40 * yOffset,
           scale: 0.88 * scaleMultiplier,
           opacity: 1,
-          zIndex: 4, // Reduced from 40
+          zIndex: 4,
           rotateY: -12,
           rotateZ: -3,
         };
@@ -232,7 +232,7 @@ export default function StackedCarousel() {
           y: 70 * yOffset,
           scale: 0.76 * scaleMultiplier,
           opacity: 1,
-          zIndex: 3, // Reduced from 30
+          zIndex: 3,
           rotateY: -18,
           rotateZ: -5,
         };
@@ -244,7 +244,7 @@ export default function StackedCarousel() {
           y: 40 * yOffset,
           scale: 0.88 * scaleMultiplier,
           opacity: 1,
-          zIndex: 4, // Reduced from 40
+          zIndex: 4,
           rotateY: 12,
           rotateZ: 3,
         };
@@ -256,7 +256,7 @@ export default function StackedCarousel() {
           y: 70 * yOffset,
           scale: 0.76 * scaleMultiplier,
           opacity: 1,
-          zIndex: 3, // Reduced from 30
+          zIndex: 3,
           rotateY: 18,
           rotateZ: 5,
         };
@@ -267,7 +267,7 @@ export default function StackedCarousel() {
         y: 100,
         scale: 0.6,
         opacity: 0,
-        zIndex: 2, // Reduced from 20
+        zIndex: 2,
         rotateY: 0,
         rotateZ: 0,
       };
@@ -275,8 +275,8 @@ export default function StackedCarousel() {
   }, [current, isMobile, windowWidth]);
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center py-4 md:py-8">
-      <div className="relative w-full h-[340px] sm:h-[400px] md:h-[450px] lg:h-[500px] flex items-center justify-center px-2 md:px-4">
+    <div className="relative w-full max-w-full overflow-hidden flex flex-col items-center justify-center py-4 md:py-8">
+      <div className="relative w-full h-[320px] sm:h-[380px] md:h-[450px] lg:h-[500px] flex items-center justify-center">
         <motion.div
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
@@ -312,11 +312,10 @@ export default function StackedCarousel() {
                   stiffness: 260,
                   damping: 28,
                 }}
-                // Add pointer events only to visible cards for performance
                 initial={false}
                 layout={false}
               >
-                <div className={`relative w-[200px] h-[280px] sm:w-[240px] sm:h-[320px] md:w-[280px] md:h-[380px] lg:w-[300px] lg:h-[400px] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white ${
+                <div className={`relative w-[180px] h-[260px] sm:w-[220px] sm:h-[300px] md:w-[280px] md:h-[380px] lg:w-[300px] lg:h-[400px] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white ${
                   isActive ? 'ring-2 md:ring-4 ring-yellow-400 ring-offset-1 md:ring-offset-2' : ''
                 }`}>
                   <Image
@@ -350,7 +349,7 @@ export default function StackedCarousel() {
         </motion.div>
       </div>
 
-      {/* Navigation dots - adjusted margin */}
+      {/* Navigation dots */}
       <div className="flex gap-1.5 md:gap-2 mt-4 md:mt-6">
         {cards.map((_, index) => (
           <button
