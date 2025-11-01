@@ -34,7 +34,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <ThemeSwitch className="fixed top-4 right-4" />
           <main className="container mx-auto max-w-4xl px-6 py-8">
             <AiAssistant />
