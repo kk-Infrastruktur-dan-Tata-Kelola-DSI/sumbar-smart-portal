@@ -56,7 +56,6 @@ export const Navbar = () => {
     const profilDropdownItems = [
         { name: "Visi & Misi", href: "/profile" },
         { name: "Struktur dan Organisasi", href: "/profile#struktur" },
-        { name: "Tugas dan Fungsi", href: "/profile#tugas-fungsi" },
         { name: "OPD", href: "/profile#opd" },
     ];
 
@@ -76,22 +75,22 @@ export const Navbar = () => {
         { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
     ];
 
-    const pengumumanDropdownItems = [
-        { name: "Aplikasi SIMADK", href: "/pengumuman#simadk" },
-        { name: "Aplikasi E-Rkbmd", href: "/pengumuman#e-rkbmd" },
-        { name: "PPID", href: "/pengumuman#ppid" },
+    const inovasiDropdownItems = [
+        { name: "PPID", href: "/inovasi" },
+        { name: "Aplikasi SIDADOK", href: "/inovasi#sidadok" },
+        { name: "Aplikasi E-Riset", href: "/inovasi#e-riset" },
     ];
 
     const navLinks = [
         { name: "Beranda", href: "/" },
         { name: "Profil", href: "/profile", hasDropdown: true, dropdownItems: profilDropdownItems },
         { name: "Informasi", href: "/informasi", hasDropdown: true, dropdownItems: informasiDropdownItems },
-        { name: "Pengumuman", href: "/pengumuman", hasDropdown: true, dropdownItems: pengumumanDropdownItems },
+        { name: "Pengumuman", href: "/pengumuman"},
         { name: "Anti Hoax", href: "/anti_hoax" },
         { name: "Informasi Layanan", href: "/layanan", hasDropdown: true, dropdownItems: layananDropdownItems },
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
-        { name: "Inovasi", href: "/inovasi" },
+        { name: "Inovasi", href: "/inovasi", hasDropdown: true, dropdownItems: inovasiDropdownItems },
     ];
 
     return (
