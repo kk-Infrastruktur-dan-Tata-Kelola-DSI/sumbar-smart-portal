@@ -7,7 +7,7 @@ export default function ProfilePage() {
         <h1 className="text-2xl font-bold">Profil</h1>
         <p>Selamat datang di halaman profil!</p>
       </div>
-      <Footer />
+ 
     </>
   );
 }

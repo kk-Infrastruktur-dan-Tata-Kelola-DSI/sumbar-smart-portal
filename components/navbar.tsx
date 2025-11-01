@@ -50,7 +50,6 @@ export const Navbar = () => {
         { name: "Informasi Layanan", href: "/layanan" },
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
-        { name: "Akuntabilitas", href: "/akuntabilitas" },
         { name: "Inovasi", href: "/inovasi" },
     ];
 

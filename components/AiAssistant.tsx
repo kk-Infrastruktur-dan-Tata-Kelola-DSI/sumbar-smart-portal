@@ -14,11 +14,18 @@ export default function AiAssistant() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [showWelcome, setShowWelcome] = React.useState(true);
+  const [timeString, setTimeString] = React.useState<string | null>(null);
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
+
+  // Avoid hydration mismatch by computing time only on client after mount
+  React.useEffect(() => {
+    const t = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    setTimeString(t);
+  }, []);
 
   const send = async (text?: string) => {
     const messageText = text || input.trim();
@@ -193,8 +200,8 @@ export default function AiAssistant() {
                       <p className="text-sm leading-relaxed">
                         Selamat datang di Portal Provinsi Sumatera Barat! Saya asisten virtual Anda. Bagaimana saya dapat membantu Anda hari ini?
                       </p>
-                      <div className="mt-3 text-xs text-foreground-500">
-                        {new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                      <div className="mt-3 text-xs text-foreground-500" suppressHydrationWarning>
+                        {timeString ?? ""}
                       </div>
                     </div>
                   </Card>

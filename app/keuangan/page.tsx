@@ -5,7 +5,6 @@ import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { Progress } from "@heroui/progress";
 import { Chip } from "@heroui/chip";
-import Footer from "@/components/footer";
 
 export default function KeuanganDaerahPage() {
   const statisticCards = [
@@ -92,7 +91,7 @@ export default function KeuanganDaerahPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-primary-600 text-primary-foreground">
+      <div className=" text-black">
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Keuangan Daerah</h1>
           <p className="text-lg opacity-90 max-w-3xl mx-auto">
