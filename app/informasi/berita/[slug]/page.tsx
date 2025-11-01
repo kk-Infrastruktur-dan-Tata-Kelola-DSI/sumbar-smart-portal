@@ -1,9 +1,13 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { Button } from "@heroui/react";
+import { Skeleton } from "@heroui/skeleton";
+import { ArrowLeft } from "lucide-react";
 import placeholderHorizontal from "@/public/images/placeholder-horizontal.jpg";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 // Mock data for a single news article with detailed content
 const newsDetailData = {
@@ -45,94 +49,192 @@ const relatedNews = [
 ];
 
 export default function BeritaDetailPage() {
+  const [loading, setLoading] = React.useState(true);
   const params = useParams();
   const slug = params.slug;
-  
-  // In a real app, you would fetch the specific article based on the slug
-  // For now, we'll just use our mock data
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <BeritaDetailSkeleton />;
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Article Header */}
-        <h1 className="text-2xl md:text-3xl font-bold mb-3">
-          {newsDetailData.title}
-        </h1>
-        
-        <p className="text-gray-500 text-sm mb-6">
-          {newsDetailData.date}
-        </p>
-        
-        {/* Main Image */}
-        <div className="relative aspect-[16/9] rounded-lg overflow-hidden mb-8">
-          <Image
-            src={newsDetailData.image}
-            alt={newsDetailData.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        
-        {/* Article Content */}
-        <div className="prose max-w-none">
-          {newsDetailData.content.map((paragraph, index) => (
-            <p key={index} className="mb-4 text-gray-800">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-        
-        {/* Author */}
-        <div className="mt-8 pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
-            Penulis: {newsDetailData.author}
-          </p>
-        </div>
-        
-        {/* Related News */}
-        <div className="mt-12">
-          <h2 className="text-xl font-bold mb-6">Berita Terkait</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {relatedNews.map((news) => (
-              <div key={news.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                <div className="relative aspect-[16/9]">
-                  <Image
-                    src={news.image}
-                    alt={news.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2">
-                    {news.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-3">{news.date}</p>
-                  <Button
-                    size="sm"
-                    className="text-sm bg-transparent text-blue-600 hover:bg-blue-50 px-0"
-                  >
-                    Info Selengkapnya →
-                  </Button>
-                </div>
-              </div>
-            ))}
+    <div className="min-h-screen bg-white">
+      {/* Header Section */}
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3 justify-center">
+            <span>{newsDetailData.date}</span>
           </div>
+          <h1 className="text-4xl px-12 md:text-5xl font-bold tracking-tighter">
+            {newsDetailData.title}
+          </h1>
         </div>
-        
-        {/* Back Button */}
-        <div className="mt-8 flex justify-center">
-          <Button
-            className="px-8 py-2 rounded-full font-medium text-base flex items-center gap-2 bg-gradient-to-r from-[#F0B100] to-[#FFB900] text-white hover:from-[#FFB900] hover:to-[#ffdd00] hover:shadow-lg shadow-md transition-all duration-300"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5"></path>
-              <path d="m12 19-7-7 7-7"></path>
-            </svg>
-            Kembali ke Berita
-          </Button>
+      </div>
+
+      <div className="container mx-auto px-4 py-2">
+        <div className="max-w-4xl mx-auto">
+          {/* Main Image Section */}
+          <section className="mb-16">
+            <div className="relative aspect-[16/9] rounded-lg overflow-hidden shadow-md">
+              <Image
+                src={newsDetailData.image}
+                alt={newsDetailData.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </section>
+
+          {/* Article Content Section */}
+          <section className="mb-16">
+            <div className="prose max-w-none">
+              {newsDetailData.content.map((paragraph, index) => (
+                <p key={index} className="mb-4 text-gray-800 leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </section>
+
+          {/* Author Section */}
+          <section className="mb-16">
+            <div className="flex items-center gap-6 mb-8">
+              <h2 className="text-2xl font-bold">Penulis</h2>
+              <div className="h-[3px] flex-grow bg-black"></div>
+            </div>
+            <p className="text-foreground-600">{newsDetailData.author}</p>
+          </section>
+
+          {/* Related News Section */}
+          <section className="mb-16">
+            <div className="flex items-center gap-6 mb-8">
+              <h2 className="text-2xl font-bold">Berita Terkait</h2>
+              <div className="h-[3px] flex-grow bg-black"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {relatedNews.map((news) => (
+                <div key={news.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+                  <div className="relative aspect-[16/9]">
+                    <Image
+                      src={news.image}
+                      alt={news.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg mb-2 line-clamp-2">
+                      {news.title}
+                    </h3>
+                    <p className="text-sm text-foreground-500 mb-3">{news.date}</p>
+                    <Link href={`/informasi/berita/${news.slug}`}>
+                      <Button
+                        size="sm"
+                        className="text-sm bg-transparent text-blue-600 hover:bg-blue-50 px-0"
+                      >
+                        Info Selengkapnya →
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Back Button Section */}
+          <section className="mb-8">
+            <div className="flex justify-center">
+              <Link href="/informasi/berita">
+                <Button 
+                  className="px-10 py-3 rounded-full font-medium text-base flex items-center gap-2 bg-gradient-to-r from-[#F0B100] to-[#FFB900] text-white hover:from-[#FFB900] hover:to-[#ffdd00] hover:shadow-lg shadow-md transition-all duration-300 hover:brightness-105 active:scale-95"
+                  startContent={<ArrowLeft size={20} />}
+                >
+                  Kembali ke Berita
+                </Button>
+              </Link>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BeritaDetailSkeleton() {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header Skeleton */}
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <Skeleton className="h-4 w-32 mx-auto rounded-lg mb-3" />
+          <Skeleton className="h-12 w-3/4 mx-auto rounded-lg mb-4" />
+          <Skeleton className="h-6 w-full max-w-xl mx-auto rounded-lg" />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Main Image Skeleton */}
+          <section className="mb-16">
+            <Skeleton className="aspect-[16/9] rounded-lg w-full" />
+          </section>
+
+          {/* Content Skeleton */}
+          <section className="mb-16">
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5].map((item) => (
+                <React.Fragment key={item}>
+                  <Skeleton className="h-4 w-full rounded-lg" />
+                  <Skeleton className="h-4 w-5/6 rounded-lg" />
+                </React.Fragment>
+              ))}
+            </div>
+          </section>
+
+          {/* Author Skeleton */}
+          <section className="mb-16">
+            <div className="flex items-center gap-6 mb-8">
+              <Skeleton className="h-8 w-32 rounded-lg" />
+              <div className="h-[3px] flex-grow bg-gray-200"></div>
+            </div>
+            <Skeleton className="h-6 w-48 rounded-lg" />
+          </section>
+
+          {/* Related News Skeleton */}
+          <section className="mb-16">
+            <div className="flex items-center gap-6 mb-8">
+              <Skeleton className="h-8 w-48 rounded-lg" />
+              <div className="h-[3px] flex-grow bg-gray-200"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2].map((item) => (
+                <div key={item} className="bg-white rounded-lg overflow-hidden shadow-md">
+                  <Skeleton className="aspect-[16/9] rounded-t-lg" />
+                  <div className="p-4">
+                    <Skeleton className="h-6 w-full rounded-lg mb-2" />
+                    <Skeleton className="h-4 w-32 rounded-lg mb-3" />
+                    <Skeleton className="h-4 w-24 rounded-lg" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Back Button Skeleton */}
+          <section className="mb-8">
+            <div className="flex justify-center">
+              <Skeleton className="h-12 w-48 rounded-full" />
+            </div>
+          </section>
         </div>
       </div>
     </div>
