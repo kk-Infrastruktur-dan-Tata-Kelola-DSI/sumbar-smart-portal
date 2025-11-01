@@ -13,7 +13,7 @@ interface AntiHoaxClientProps {
 export default function AntiHoaxClient({ hoaxData, verifiedData }: AntiHoaxClientProps) {
     const [selectedItem, setSelectedItem] = useState<AntiHoax | null>(null);
 
-    // Format tanggal dari ISO string ke format yang diinginkan
+    
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const options: Intl.DateTimeFormatOptions = { 

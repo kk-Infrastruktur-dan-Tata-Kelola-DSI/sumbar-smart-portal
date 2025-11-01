@@ -12,57 +12,61 @@ export default async function Home() {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="relative max-w-5xl mx-auto mt-8 rounded-3xl overflow-hidden shadow-xl" style={{ backgroundColor: '#FBC125' }}>
-        {/* Background Image */}
-        <Image
-          src="/images/gunung.png"
-          alt="Gunung Sumatera Barat"
-          width={1200}
-          height={600}
-          className="w-full h-[420px] object-cover"
-          priority
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-        {/* Ornamen Daun */}
-        <Image
-          src="/images/daun.png"
-          alt="Daun"
-          width={80}
-          height={80}
-          className="absolute left-0 bottom-0 z-10"
-        />
-        <Image
-          src="/images/daun.png"
-          alt="Daun"
-          width={60}
-          height={60}
-          className="absolute right-10 top-20 z-10"
-        />
-        <Image
-          src="/images/daun.png"
-          alt="Daun"
-          width={100}
-          height={100}
-          className="absolute right-0 bottom-0 z-10"
-        />
-        {/* Content */}
-        <div className="absolute bottom-12 left-12 right-12 flex flex-col items-start z-20">
-          <div className="flex gap-3 mb-5">
-            <button className="bg-yellow-400 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-yellow-500 transition-all flex items-center gap-2">
-              Jelajahi Layanan <span className="font-bold">→</span>
-            </button>
-            <button className="bg-white text-gray-900 font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-gray-100 transition-all">
-              Pelajari Lebih Lanjut
-            </button>
-          </div>
-          <p className="text-white text-sm leading-relaxed max-w-lg drop-shadow-md">
-            Portal digital yang menghubungkan pemerintah dan masyarakat. Akses
-            layanan publik, informasi terkini, dan berpartisipasi dalam
-            pembangunan daerah.
-          </p>
+      <section className="relative max-w-5xl mx-auto mt-8 rounded-t-xl">
+      {/* Overlay */}
+      <div className="absolute inset-0 left-1/2 -translate-x-1/2 rounded-t-xl bg-yellow-400 z-0 w-[105%] rotate-[1deg]"/>
+
+
+      {/* Background Image */}
+      <Image
+        src="/images/gunung.png"
+        alt="Gunung Sumatera Barat"
+        width={1300}
+        height={800}
+        className="w-full h-[420px] object-cover rotate-[-1deg] relative z-10"
+        priority
+      />
+
+      {/* Ornamen Daun */}
+      <Image
+        src="/images/daun.png"
+        alt="Daun"
+        width={80}
+        height={80}
+        className="absolute left-0 bottom-0 z-20"
+      />
+      <Image
+        src="/images/daun.png"
+        alt="Daun"
+        width={60}
+        height={60}
+        className="absolute right-10 top-20 z-20"
+      />
+      <Image
+        src="/images/daun.png"
+        alt="Daun"
+        width={100}
+        height={100}
+        className="absolute right-0 bottom-0 z-20"
+      />
+
+      {/* Content */}
+      <div className="absolute bottom-12 left-12 right-12 flex flex-col items-start z-30">
+        <div className="flex gap-3 mb-5">
+          <button className="bg-yellow-400 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-yellow-500 transition-all flex items-center gap-2">
+            Jelajahi Layanan <span className="font-bold">→</span>
+          </button>
+          <button className="bg-white text-gray-900 font-semibold text-sm px-5 py-2.5 rounded-full shadow-lg hover:bg-gray-100 transition-all">
+            Pelajari Lebih Lanjut
+          </button>
         </div>
-      </section>
+        <p className="text-white text-sm leading-relaxed max-w-lg drop-shadow-md">
+          Portal digital yang menghubungkan pemerintah dan masyarakat. Akses layanan publik,
+          informasi terkini, dan berpartisipasi dalam pembangunan daerah.
+        </p>
+      </div>
+    </section>
+
 
       {/* Statistik Section */}
       <section className="max-w-5xl mx-auto flex relative -mt-12 z-30 px-4">
