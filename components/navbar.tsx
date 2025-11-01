@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Navbar as HeroUINavbar,
     NavbarBrand,
@@ -14,11 +16,19 @@ import { Input } from "@heroui/input";
 import { Bell, Search, Globe } from "lucide-react";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 import { siteConfig } from "@/config/site";
 import logoImage from '@/public/images/logo.png';
 
 export const Navbar = () => {
+    const pathname = usePathname();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
     const searchInput = (
         <Input
             aria-label="Search"
@@ -38,7 +48,7 @@ export const Navbar = () => {
         { name: "Pengumuman", href: "#" },
         { name: "Anti Hoax", href: "#" },
         { name: "Informasi Layanan", href: "#" },
-        { name: "Keuangan Daerah", href: "#" },
+        { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "#" },
         { name: "Akuntabilitas", href: "#" },
         { name: "Inovasi", href: "#" },
@@ -85,37 +95,47 @@ export const Navbar = () => {
                     <NavbarMenuItem className="lg:hidden">
                         {searchInput}
                     </NavbarMenuItem>
-                    {navLinks.map((item, index) => (
-                        <NavbarMenuItem key={`${item.name}-${index}`}>
-                            <Link
-                                color={index === 0 ? "primary" : "foreground"}
-                                className="w-full"
-                                href={item.href}
-                                size="lg"
-                            >
-                                {item.name}
-                            </Link>
-                        </NavbarMenuItem>
-                    ))}
+                    {navLinks.map((item, index) => {
+                        const isActive = mounted && pathname === item.href;
+                        return (
+                            <NavbarMenuItem key={`${item.name}-${index}`}>
+                                <Link
+                                    color={isActive ? "primary" : "foreground"}
+                                    className={clsx(
+                                        "w-full",
+                                        isActive && "font-semibold"
+                                    )}
+                                    href={item.href}
+                                    size="lg"
+                                >
+                                    {item.name}
+                                </Link>
+                            </NavbarMenuItem>
+                        );
+                    })}
                 </NavbarMenu>
             </HeroUINavbar>
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex w-full justify-center items-center h-14 bg-background">
                 <div className="flex gap-6">
-                    {navLinks.map((item, index) => (
-                        <Link
-                            key={item.name}
-                            href={item.href}
-                            color="foreground"
-                            className={clsx(
-                                "text-sm font-medium **hover:underline** transition-all",
-                                index === 0 && "relative after:content-[''] after:absolute after:bottom-[-10px] after:left-0 after:right-0 after:h-[3px] after:bg-[#FFB900] **after:transition-all**"
-                            )}
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
+                    {navLinks.map((item) => {
+                        const isActive = mounted && pathname === item.href;
+                        return (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                color="foreground"
+                                className={clsx(
+                                    "text-sm font-medium hover:text-warning transition-all relative",
+                                    isActive && "text-warning font-semibold",
+                                    isActive && "after:content-[''] after:absolute after:bottom-[-10px] after:left-0 after:right-0 after:h-[3px] after:bg-warning after:transition-all"
+                                )}
+                            >
+                                {item.name}
+                            </Link>
+                        );
+                    })}
                 </div>
             </nav>
         </header>
