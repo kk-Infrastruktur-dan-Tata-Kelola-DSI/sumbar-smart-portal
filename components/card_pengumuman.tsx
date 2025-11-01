@@ -85,7 +85,7 @@ export default function CardPengumuman({
         <>
             <div className="w-full">
                 <div 
-                    className={`bg-white rounded-2xl shadow-md p-6 relative hover:shadow-lg transition-all ${fileUrl ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
+                    className={`bg-white rounded-2xl border border-gray-200 shadow-sm p-6 relative hover:shadow-md transition-all ${fileUrl ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
                     onClick={handleCardClick}
                 >
                     {/* Status Badge */}
