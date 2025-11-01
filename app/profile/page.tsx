@@ -38,9 +38,9 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-white">
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main>
         {/* Vision and Mission Section */}
-        <section className="mb-16 " id="visi-misi">
+        <section className="min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="visi-misi">
           {/* VISI */}
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
@@ -65,17 +65,10 @@ export default function ProfilePage() {
               </li>
             ))}
           </ol>
-
-          {/* Yellow Banner */}
-          <div className="w-full bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 rounded-lg shadow-md py-2 px-6 flex justify-end items-center text-sm font-semibold text-black mt-12">
-            Dikunjungi sebanyak 3.980 kali
-          </div>
-
-
         </section>
 
         {/* Organizational Structure Section */}
-        <section className="mb-16" id="struktur">
+        <section className="min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="struktur">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Struktur Organisasi</h2>
 
           {/* Image Placeholder - Ganti src dengan gambar struktur organisasi Anda */}
@@ -89,61 +82,6 @@ export default function ProfilePage() {
                 className="w-full h-auto rounded-lg"
                 priority
               />
-            </div>
-          </div>
-
-          {/* Yellow Banner */}
-          <div className="w-full bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 rounded-lg shadow-md py-2 px-6 flex justify-end items-center text-sm font-semibold text-black mt-6">
-            Dikunjungi sebanyak 3.980 kali
-          </div>
-
-        </section>
-
-        {/* OPD Section */}
-        <section className="mb-16" id="opd">
-          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
-            Organisasi dan Perangkat Daerah (OPD)
-          </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-            Daftar Organisasi Perangkat Daerah di Lingkungan Pemerintah Provinsi Sumatera Barat
-          </p>
-
-          {/* Secretariat */}
-          <div className="mb-12">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Sekretariat Daerah</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {departments.slice(0, 3).map((dept, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 text-center font-semibold text-gray-900">
-                  {dept.title}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Departments */}
-          <div className="mb-12">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Dinas Daerah</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {departments.slice(3).map((dept, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 font-semibold text-gray-900">
-                  {dept.title}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bodies & Institutions */}
-          <div className="mb-12">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Badan & Lembaga</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {bodies.map((body, index) => (
-                <div
-                  key={index}
-                  className="bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-lg text-center shadow-sm text-base"
-                >
-                  {body}
-                </div>
-              ))}
             </div>
           </div>
         </section>
