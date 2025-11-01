@@ -54,32 +54,32 @@ export const Navbar = () => {
     );
 
     const profilDropdownItems = [
-        { name: "Visi & Misi", href: "/profile/visi-misi" },
-        { name: "Struktur dan Organisasi", href: "/profile/struktur" },
-        { name: "Tugas dan Fungsi", href: "/profile/tugas-fungsi" },
-        { name: "OPD", href: "/profile/opd" },
+        { name: "Visi & Misi", href: "/profile" },
+        { name: "Struktur dan Organisasi", href: "/profile#struktur" },
+        { name: "Tugas dan Fungsi", href: "/profile#tugas-fungsi" },
+        { name: "OPD", href: "/profile#opd" },
     ];
 
     const informasiDropdownItems = [
-        { name: "Berita", href: "/informasi/berita" },
-        { name: "Infografis", href: "/informasi/infografis" },
-        { name: "Foto", href: "/informasi/foto" },
-        { name: "Video", href: "/informasi/video" },
-        { name: "Agenda", href: "/informasi/agenda" },
-        { name: "Pedoman Teknis", href: "/informasi/pedoman-teknis" },
+        { name: "Berita", href: "/informasi" },
+        { name: "Infografis", href: "/informasi#infografis" },
+        { name: "Foto", href: "/informasi#foto" },
+        { name: "Video", href: "/informasi#video" },
+        { name: "Agenda", href: "/informasi#agenda" },
+        { name: "Pedoman Teknis", href: "/informasi#pedoman-teknis" },
     ];
 
     const layananDropdownItems = [
-        { name: "Standar Layanan Publik", href: "/layanan/standar-layanan" },
-        { name: "Maklumat Pelayanan", href: "/layanan/maklumat-pelayanan" },
-        { name: "Pengelolaan Pengaduan", href: "/layanan/pengelolaan-pengaduan" },
-        { name: "Survey Kepuasan Masyarakat", href: "/layanan/survey-kepuasan" },
+        { name: "Standar Layanan Publik", href: "/layanan" },
+        { name: "Maklumat Pelayanan", href: "/layanan#maklumat-pelayanan" },
+        { name: "Pengelolaan Pengaduan", href: "/layanan#pengelolaan-pengaduan" },
+        { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
     ];
 
     const pengumumanDropdownItems = [
-        { name: "Aplikasi SIMADK", href: "/pengumuman/simadk" },
-        { name: "Aplikasi E-Rkbmd", href: "/pengumuman/e-rkbmd" },
-        { name: "PPID", href: "/pengumuman/ppid" },
+        { name: "Aplikasi SIMADK", href: "/pengumuman#simadk" },
+        { name: "Aplikasi E-Rkbmd", href: "/pengumuman#e-rkbmd" },
+        { name: "PPID", href: "/pengumuman#ppid" },
     ];
 
     const navLinks = [
