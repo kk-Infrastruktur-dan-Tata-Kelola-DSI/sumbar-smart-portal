@@ -40,7 +40,7 @@ export default function ProfilePage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Vision and Mission Section */}
-        <section className="mb-16">
+        <section className="mb-16 " id="visi-misi">
           {/* VISI */}
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
@@ -75,7 +75,7 @@ export default function ProfilePage() {
         </section>
 
         {/* Organizational Structure Section */}
-        <section className="mb-16">
+        <section className="mb-16" id="struktur">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Struktur Organisasi</h2>
 
           {/* Image Placeholder - Ganti src dengan gambar struktur organisasi Anda */}
@@ -100,7 +100,7 @@ export default function ProfilePage() {
         </section>
 
         {/* OPD Section */}
-        <section className="mb-16">
+        <section className="mb-16" id="opd">
           <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
             Organisasi dan Perangkat Daerah (OPD)
           </h2>

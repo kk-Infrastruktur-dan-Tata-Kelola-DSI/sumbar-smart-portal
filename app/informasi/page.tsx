@@ -30,7 +30,7 @@ export default function InformasiPage() {
                 </div>
 
                 <section className="container mx-auto px-16 py-8">
-                <div className="flex items-center gap-6 mb-6">
+                    <div className="flex items-center gap-6 mb-6">
                         <h2 className="text-2xl font-bold">Infografis</h2>
                         <div className="h-[3px] flex-grow bg-black"></div>
                     </div>
@@ -68,8 +68,8 @@ export default function InformasiPage() {
                 {/* Update Image components in Foto section */}
                 <section className="container mx-auto px-16 py-8">
                     <div className="flex items-center gap-6 mb-6">
-                        <h2 className="text-2xl font-bold">Foto</h2>
                         <div className="h-[3px] flex-grow bg-black"></div>
+                        <h2 className="text-2xl font-bold">Foto</h2>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {[1, 2, 3, 4, 5, 6].map((item) => (
@@ -113,7 +113,7 @@ export default function InformasiPage() {
                                 />
                                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="white" className="transform scale-75 md:scale-100">
-                                        <path d="M8 5v14l11-7z"/>
+                                        <path d="M8 5v14l11-7z" />
                                     </svg>
                                 </div>
                             </div>
@@ -133,8 +133,8 @@ export default function InformasiPage() {
                 {/* Update Image components in Index Agenda section */}
                 <section className="container mx-auto px-16 py-8">
                     <div className="flex items-center gap-6 mb-6">
-                        <h2 className="text-2xl font-bold">Index Agenda</h2>
                         <div className="h-[3px] flex-grow bg-black"></div>
+                        <h2 className="text-2xl font-bold">Index Agenda</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="bg-white rounded-lg p-4 shadow-md">
