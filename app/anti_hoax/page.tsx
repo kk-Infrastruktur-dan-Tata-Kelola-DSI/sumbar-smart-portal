@@ -66,7 +66,7 @@ export default function AntiHoaxPage() {
             {/* Header - No Skeleton */}
             <div className="text-black">
                 <div className="container mx-auto px-4 py-16 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tighter">
                         Anti Hoax
                     </h1>
                     <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
