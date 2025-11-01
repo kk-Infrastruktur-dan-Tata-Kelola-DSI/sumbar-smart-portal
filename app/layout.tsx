@@ -12,7 +12,7 @@ import { TTSProvider } from "@/contexts/TTSContext";
 export const metadata: Metadata = {
   title: "Sumbar Smart Portal",
   description: "Sumbar Smart Portal",
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {
