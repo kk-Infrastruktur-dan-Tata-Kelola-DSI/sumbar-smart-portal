@@ -137,7 +137,7 @@ export default function BudayaPage() {
               <span><MapPin size={16}></MapPin></span>
               <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tighter">
               Budaya Sumbar
             </h1>
             <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
@@ -206,7 +206,7 @@ export default function BudayaPage() {
             <span><MapPin size={16}></MapPin></span>
             <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tighter">
             Budaya Sumbar
           </h1>
           <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">

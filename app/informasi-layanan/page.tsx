@@ -1,12 +1,21 @@
 "use client";
 
+import React from "react";
 import { Button } from "@heroui/button";
 import { useState } from "react";
+import { Skeleton } from "@heroui/skeleton";
 
 export default function LayananPage() {
+  const [loading, setLoading] = useState(true);
   const [isPeriodeOpen, setIsPeriodeOpen] = useState(false);
   const [selectedPeriode, setSelectedPeriode] = useState<string>("");
   const [showNilai, setShowNilai] = useState(false);
+
+  // Simulate loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const periodeOptions = [
     "Bulan Lalu",
@@ -39,16 +48,22 @@ export default function LayananPage() {
     }
   };
 
+  if (loading) {
+    return <LayananSkeleton />;
+  }
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header Section */}
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-          Survey Kepuasan Masyarakat
-        </h1>
-        <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Survey Kepuasan Masyarakat adalah pengukuran tingkat kepuasan masyarakat terhadap kualitas pelayanan yang diberikan oleh unit pelayanan publik.
-        </p>
+      <div className="text-black">
+        <div className="container mx-auto px-4 pt-16 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tighter">
+            Survey Kepuasan Masyarakat
+          </h1>
+          <p className="text-lg opacity-90 max-w-3xl mx-auto">
+            Survey Kepuasan Masyarakat adalah pengukuran tingkat kepuasan masyarakat terhadap kualitas pelayanan yang diberikan oleh unit pelayanan publik.
+          </p>
+        </div>
       </div>
 
       {/* Statistics Cards */}
@@ -89,33 +104,33 @@ export default function LayananPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-12">
           {/* Pilih Periode Dropdown */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => setIsPeriodeOpen(!isPeriodeOpen)}
               className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white rounded-xl py-4 px-6 text-center font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 transform hover:scale-[1.02]"
             >
-              <svg 
-                className="w-5 h-5" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               {selectedPeriode || "Pilih Periode"}
-              <svg 
-                className={`w-5 h-5 transition-transform duration-300 ${isPeriodeOpen ? 'rotate-180' : ''}`} 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className={`w-5 h-5 transition-transform duration-300 ${isPeriodeOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            
+
             {isPeriodeOpen && (
               <>
-                <div 
-                  className="fixed inset-0 z-10 bg-black/20 backdrop-blur-sm transition-opacity" 
+                <div
+                  className="fixed inset-0 z-10 bg-black/20 backdrop-blur-sm transition-opacity"
                   onClick={() => setIsPeriodeOpen(false)}
                 ></div>
                 <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 border border-gray-200">
@@ -127,18 +142,16 @@ export default function LayananPage() {
                           setSelectedPeriode(option);
                           setIsPeriodeOpen(false);
                         }}
-                        className={`w-full px-6 py-3.5 text-left hover:bg-gradient-to-r hover:from-yellow-50 hover:to-yellow-100 transition-all duration-200 flex items-center gap-3 group relative overflow-hidden ${
-                          selectedPeriode === option ? 'bg-yellow-50 text-gray-900' : 'text-gray-700'
-                        }`}
+                        className={`w-full px-6 py-3.5 text-left hover:bg-gradient-to-r hover:from-yellow-50 hover:to-yellow-100 transition-all duration-200 flex items-center gap-3 group relative overflow-hidden ${selectedPeriode === option ? 'bg-yellow-50 text-gray-900' : 'text-gray-700'
+                          }`}
                       >
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-yellow-400 transform transition-transform duration-300" style={{
                           transform: selectedPeriode === option ? 'translateX(0)' : 'translateX(-100%)'
                         }}></div>
-                        <svg 
-                          className={`w-4 h-4 text-yellow-500 transition-opacity duration-200 ${
-                            selectedPeriode === option ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                          }`}
-                          fill="currentColor" 
+                        <svg
+                          className={`w-4 h-4 text-yellow-500 transition-opacity duration-200 ${selectedPeriode === option ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                            }`}
+                          fill="currentColor"
                           viewBox="0 0 20 20"
                         >
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -152,7 +165,7 @@ export default function LayananPage() {
             )}
           </div>
 
-          <button 
+          <button
             onClick={handleLihatNilai}
             className="bg-white rounded-xl py-4 px-6 text-center font-bold text-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] flex items-center justify-center gap-2 border-2"
             style={{ borderColor: '#d48b00' }}
@@ -162,9 +175,9 @@ export default function LayananPage() {
             </svg>
             Lihat Nilai
           </button>
-          <a 
-            href="/file/SEPAKAT - Manual Book.pdf" 
-            target="_blank" 
+          <a
+            href="/file/SEPAKAT - Manual Book.pdf"
+            target="_blank"
             rel="noopener noreferrer"
             className="bg-white border-2 border-yellow-400 rounded-xl py-4 px-6 text-center font-bold text-gray-900 hover:bg-yellow-50 hover:border-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] flex items-center justify-center gap-2"
           >
@@ -243,6 +256,43 @@ export default function LayananPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function LayananSkeleton() {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header Skeleton */}
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <Skeleton className="h-12 w-80 mx-auto rounded-lg mb-4" />
+          <Skeleton className="h-6 w-full max-w-xl mx-auto rounded-lg" />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4">
+        <section className="mb-16">
+          <div className="max-w-6xl mx-auto">
+            {/* Statistics Cards Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-lg p-8 border-4 border-gray-200">
+                  <Skeleton className="h-16 w-24 mx-auto rounded-lg mb-3" />
+                  <Skeleton className="h-6 w-32 mx-auto rounded-lg" />
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-14 rounded-xl" />
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

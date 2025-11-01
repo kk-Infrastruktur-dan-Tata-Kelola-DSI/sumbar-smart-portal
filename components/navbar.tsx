@@ -60,22 +60,14 @@ export const Navbar = () => {
     ];
 
     const informasiDropdownItems = [
-        { name: "Berita", href: "/informasi" },
-        { name: "Infografis", href: "/informasi#infografis" },
-        { name: "Foto", href: "/informasi#foto" },
-        { name: "Video", href: "/informasi#video" },
-        { name: "Agenda", href: "/informasi#agenda" },
+        { name: "Informasi", href: "/informasi" },
+        { name: "Berita", href: "/informasi/berita" },
+        { name: "Foto", href: "/informasi/foto" },
+        { name: "Video", href: "/informasi/video" },
+        { name: "Infografis", href: "/informasi/infografis" },
+        { name: "Agenda", href: "/informasi/agenda" },
         { name: "Pedoman Teknis", href: "/informasi#pedoman-teknis" },
     ];
-
-    const layananDropdownItems = [
-        { name: "Standar Layanan Publik", href: "/layanan" },
-        { name: "Maklumat Pelayanan", href: "/layanan#maklumat-pelayanan" },
-        { name: "Pengelolaan Pengaduan", href: "/layanan#pengelolaan-pengaduan" },
-        { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
-    ];
-
-
 
     const navLinks = [
         { name: "Beranda", href: "/" },
@@ -83,7 +75,7 @@ export const Navbar = () => {
         { name: "Informasi", href: "/informasi", hasDropdown: true, dropdownItems: informasiDropdownItems },
         { name: "Pengumuman", href: "/pengumuman"},
         { name: "Anti Hoax", href: "/anti_hoax" },
-        { name: "Informasi Layanan", href: "/layanan", hasDropdown: true, dropdownItems: layananDropdownItems },
+        { name: "Informasi Layanan", href: "/informasi-layanan"},
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
         { name: "Inovasi", href: "/inovasi" },
