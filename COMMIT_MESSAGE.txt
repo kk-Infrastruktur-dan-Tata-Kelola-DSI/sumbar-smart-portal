@@ -1,0 +1,54 @@
+fix(budaya): resolve interactive map issues in Chrome/Edge browsers
+
+## Problem
+- Interactive map not working in Chromium-based browsers (Chrome, Edge)
+- Map interactions (clicks on markers) only worked in Firefox
+- Inconsistent data fetching across browsers
+
+## Root Causes
+1. Direct Supabase client-side queries behaved differently in Chrome vs Firefox
+2. CORS and RLS policy issues with browser-to-database connections
+3. Coordinate type coercion (DECIMAL returned as string vs number)
+4. Pointer events and z-index conflicts in Chromium rendering engine
+
+## Solution
+### Changed data fetching method:
+- BEFORE: Direct Supabase client calls in browser
+- AFTER: Fetch via Next.js API Routes (server-side)
+
+### Benefits:
+- ✅ Consistent behavior across all browsers
+- ✅ Server-side query execution (no CORS issues)
+- ✅ Proper RLS policy application
+- ✅ Better error handling and logging
+- ✅ Type safety for coordinates
+
+## Changes
+- `app/budaya/page.tsx`: Changed to fetch from API routes
+- `app/api/budaya/route.ts`: Added debug logging and cache headers
+- `app/api/budaya/kabupatens/route.ts`: Added debug logging
+- `components/MapSumbar.tsx`: Enhanced pointer events for Chromium
+- `utils/supabase/client.ts`: Added environment variable validation
+- Added debug documentation and testing tools
+
+## Testing
+Run with debug mode:
+```bash
+# .env.local
+NEXT_PUBLIC_MAP_DEBUG=1
+
+npm run dev
+```
+
+Test API:
+```bash
+node test-api.mjs
+```
+
+## Browser Compatibility
+- ✅ Chrome/Chromium
+- ✅ Firefox
+- ✅ Edge
+- ✅ Safari
+
+Fixes #issue-number (if applicable)

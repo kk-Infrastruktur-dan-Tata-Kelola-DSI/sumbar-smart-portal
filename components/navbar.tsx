@@ -35,10 +35,16 @@ import MinangQuote from "./MinangQuote";
 export const Navbar = () => {
     const pathname = usePathname();
     const [mounted, setMounted] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     React.useEffect(() => {
         setMounted(true);
     }, []);
+    
+    // Close menu when route changes (mobile)
+    React.useEffect(() => {
+        setIsMenuOpen(false);
+    }, [pathname]);
 
     const profilDropdownItems = [
         { name: "Visi & Misi", href: "/profile" },
@@ -70,9 +76,15 @@ export const Navbar = () => {
 
     return (
         <header className="w-full flex flex-col">
-            <HeroUINavbar maxWidth="full" isBordered classNames={{
-                wrapper: "px-2 sm:px-4",
-            }}>
+            <HeroUINavbar 
+                maxWidth="full" 
+                isBordered 
+                isMenuOpen={isMenuOpen}
+                onMenuOpenChange={setIsMenuOpen}
+                classNames={{
+                    wrapper: "px-2 sm:px-4",
+                }}
+            >
                 {/* Kiri: Logo + Toggle */}
                 <NavbarContent justify="start" className="gap-1 sm:gap-2 flex-shrink-0">
                     <NavbarMenuToggle 
@@ -149,6 +161,7 @@ export const Navbar = () => {
                                                                 "w-full text-sm py-2",
                                                                 isSubActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                                             )}
+                                                            onClick={() => setIsMenuOpen(false)}
                                                         >
                                                             {subItem.name}
                                                         </Link>
@@ -169,6 +182,7 @@ export const Navbar = () => {
                                         isActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                     )}
                                     href={item.href}
+                                    onClick={() => setIsMenuOpen(false)}
                                 >
                                     {item.name}
                                 </Link>

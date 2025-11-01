@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getBudayaItems } from '@/utils/budaya-queries';
 import type { BudayaItemType } from '@/types/budaya';
 
+export const dynamic = 'force-dynamic'; // Ensure fresh data per request
+export const revalidate = 0; // No caching for debugging
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -31,11 +34,19 @@ export async function GET(request: NextRequest) {
       order_direction,
     });
 
-    return NextResponse.json(result);
+    // Log for debugging
+    console.log('[API /budaya] Returning', result.items.length, 'items out of', result.total, 'total');
+
+    return NextResponse.json(result, {
+      headers: {
+        'Cache-Control': 'no-store, must-revalidate',
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
-    console.error('Error in budaya API:', error);
+    console.error('[API /budaya] Error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch budaya items' },
+      { error: 'Failed to fetch budaya items', details: error instanceof Error ? error.message : 'Unknown' },
       { status: 500 }
     );
   }

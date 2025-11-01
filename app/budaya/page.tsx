@@ -10,10 +10,10 @@ import { Search, Filter, MapPin, Star, X, Share2, Heart } from "lucide-react";
 import Image from "next/image";
 import MapSumbar from "../../components/MapSumbar";
 import DetailDialog from "./DetailDialog";
-import { createClient } from "@/utils/supabase/client";
 import type { BudayaItemWithRelations, KabupatenWithItems } from "@/types/budaya";
 
 export default function BudayaPage() {
+  const MAP_DEBUG = process.env.NEXT_PUBLIC_MAP_DEBUG === '1';
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("Semua");
   const [selectedKabupaten, setSelectedKabupaten] = React.useState<string | null>(null);
@@ -24,46 +24,74 @@ export default function BudayaPage() {
   const [items, setItems] = React.useState<BudayaItemWithRelations[]>([]);
   const [kabupatens, setKabupatens] = React.useState<KabupatenWithItems[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
-  // Load data dari Supabase
+  // Load data menggunakan Next.js API routes (lebih konsisten cross-browser)
   React.useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
-        const supabase = createClient();
+        setError(null);
 
-        // Fetch kabupatens
-        const { data: kabData, error: kabError } = await supabase
-          .from("kabupatens")
-          .select("*")
-          .order("name");
+        // Fetch kabupatens via API route
+        const kabResponse = await fetch('/api/budaya/kabupatens', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store', // Ensure fresh data for debugging
+        });
 
-        if (kabError) throw kabError;
+        if (!kabResponse.ok) {
+          throw new Error(`Kabupaten fetch failed: ${kabResponse.status} ${kabResponse.statusText}`);
+        }
 
-        // Fetch budaya items dengan relasi
-        const { data: itemsData, error: itemsError } = await supabase
-          .from("budaya_items")
-          .select(`
-            *,
-            kabupaten:kabupatens(*),
-            category:budaya_categories(*)
-          `)
-          .eq("status", "published")
-          .order("rating", { ascending: false });
+        const kabData = await kabResponse.json();
 
-        if (itemsError) throw itemsError;
+        // Fetch budaya items via API route (all published items)
+        const itemsResponse = await fetch('/api/budaya?limit=200', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
+        });
+
+        if (!itemsResponse.ok) {
+          throw new Error(`Items fetch failed: ${itemsResponse.status} ${itemsResponse.statusText}`);
+        }
+
+        const itemsResult = await itemsResponse.json();
+        const itemsData = itemsResult.items || [];
 
         setKabupatens(kabData || []);
-        setItems(itemsData || []);
-      } catch (error) {
-        console.error("Error loading budaya data:", error);
+        setItems(itemsData);
+
+        if (MAP_DEBUG) {
+          console.info("[BudayaPage] Loaded data via API routes", {
+            kabupatens: kabData?.length || 0,
+            items: itemsData?.length || 0,
+            kabSample: kabData?.slice(0, 2),
+            itemsSample: itemsData?.slice(0, 2),
+          });
+          if (!kabData?.length) {
+            console.warn("[BudayaPage] No kabupatens returned from API. Map will render without pins.");
+          }
+          if (!itemsData?.length) {
+            console.warn("[BudayaPage] No budaya_items returned (status=published). List may be empty.");
+          }
+        }
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : 'Unknown error loading data';
+        console.error("[BudayaPage] Error loading budaya data:", err);
+        setError(errorMsg);
       } finally {
         setLoading(false);
       }
     }
 
     loadData();
-  }, []);
+  }, [MAP_DEBUG]);
 
   // Filter tipe konten: Objek wisata, Tradisi, Kuliner
   const categories = [
@@ -74,42 +102,66 @@ export default function BudayaPage() {
   ];
 
   // Convert kabupatens data untuk map component with item counts
-  const kabupatenData = kabupatens.map((kab) => {
-    const itemCount = items.filter((item) => item.kabupaten?.slug === kab.slug).length;
-    return {
-      name: kab.name,
-      key: kab.slug,
-      lat: kab.latitude,
-      lng: kab.longitude,
-      color: kab.color,
-      itemCount: itemCount,
-    };
-  });
+  const kabupatenData = React.useMemo(() => {
+    return kabupatens.map((kab) => {
+      // Use item_count from API if available, else calculate from items array
+      const itemCount = kab.item_count ?? items.filter((item) => item.kabupaten?.slug === kab.slug).length;
+      return {
+        name: kab.name,
+        key: kab.slug,
+        lat: Number(kab.latitude),
+        lng: Number(kab.longitude),
+        color: kab.color,
+        itemCount: itemCount,
+      };
+    });
+  }, [kabupatens, items]);
+
+  React.useEffect(() => {
+    if (MAP_DEBUG) {
+      console.info("[BudayaPage] kabupatenData computed", {
+        count: kabupatenData.length,
+        sample: kabupatenData.slice(0, 3),
+      });
+    }
+  }, [MAP_DEBUG, kabupatenData]);
 
   // Filtering logic
-  const filteredDestinations = items.filter((item) => {
-    // Filter by search query
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.kabupaten?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredDestinations = React.useMemo(() => {
+    const filtered = items.filter((item) => {
+      // Filter by search query
+      const matchesSearch =
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.kabupaten?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchQuery.toLowerCase());
 
-    // Filter by type (Semua, Objek, Tradisi, Kuliner)
-    const typeMap: Record<string, string> = {
-      Objek: "objek",
-      Tradisi: "tradisi",
-      Kuliner: "kuliner",
-    };
-    const matchesType =
-      selectedCategory === "Semua" || item.type === typeMap[selectedCategory];
+      // Filter by type (Semua, Objek, Tradisi, Kuliner)
+      const typeMap: Record<string, string> = {
+        Objek: "objek",
+        Tradisi: "tradisi",
+        Kuliner: "kuliner",
+      };
+      const matchesType =
+        selectedCategory === "Semua" || item.type === typeMap[selectedCategory];
 
-    // Filter by kabupaten
-    const matchesKabupaten =
-      !selectedKabupaten ||
-      item.kabupaten?.slug === selectedKabupaten;
+      // Filter by kabupaten
+      const matchesKabupaten =
+        !selectedKabupaten ||
+        item.kabupaten?.slug === selectedKabupaten;
 
-    return matchesSearch && matchesType && matchesKabupaten;
-  });
+      return matchesSearch && matchesType && matchesKabupaten;
+    });
+
+    console.log('[BudayaPage] 🔍 Filtering results', {
+      totalItems: items.length,
+      filteredCount: filtered.length,
+      selectedKabupaten,
+      selectedCategory,
+      searchQuery
+    });
+
+    return filtered;
+  }, [items, selectedKabupaten, selectedCategory, searchQuery]);
 
   // Normalize external image URLs to avoid mixed-content issues
   const toHttps = (url?: string) => {
@@ -120,10 +172,22 @@ export default function BudayaPage() {
     return `https://${url}`;
   };
 
-  const handleKabupatenClick = (key: string) => {
-    // Hanya memfilter daftar berdasarkan kabupaten yang dipilih
-    setSelectedKabupaten(key);
-  };
+  const handleKabupatenClick = React.useCallback((key: string) => {
+    // ALWAYS log (critical for debugging Chrome issue)
+    console.log('[BudayaPage] ✅ handleKabupatenClick CALLED', { 
+      key, 
+      browser: navigator.userAgent.includes('Chrome') ? 'Chrome/Edge' : 'Other',
+      timestamp: new Date().toISOString(),
+      MAP_DEBUG
+    });
+    
+    // Toggle: jika sudah selected, clear filter; jika belum, set filter
+    setSelectedKabupaten((prev) => {
+      const newValue = prev === key ? null : key;
+      console.log('[BudayaPage] ✅ State changing', { from: prev, to: newValue });
+      return newValue;
+    });
+  }, [MAP_DEBUG]);
 
   const openDetail = (item: BudayaItemWithRelations) => {
     setSelectedItem(item);
@@ -134,6 +198,25 @@ export default function BudayaPage() {
     setIsDetailOpen(false);
     setSelectedItem(null);
   };
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center max-w-md px-4">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Gagal Memuat Data</h2>
+          <p className="text-foreground-600 mb-4">{error}</p>
+          <Button 
+            color="warning" 
+            onPress={() => window.location.reload()}
+          >
+            Coba Lagi
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   // Show loading state with skeleton
   if (loading) {
@@ -376,12 +459,18 @@ export default function BudayaPage() {
                 <h3 className="font-bold text-lg mb-1">Peta Budaya</h3>
                 <p className="text-sm text-foreground-600">Klik pin untuk memfilter semua konten: objek, tradisi, dan kuliner</p>
               </div>
+              {(kabupatenData.length === 0 || !kabupatenData.some(k => Number(k.lat) && Number(k.lng))) && (
+                <div className="px-4 pb-2 text-sm text-red-600">
+                  Data peta belum tersedia atau koordinat belum terisi. Pastikan data kabupaten dan koordinat ada di database.
+                </div>
+              )}
               
               <div className="relative h-[600px] bg-white">
                 <MapSumbar
                   items={kabupatenData as any}
                   onSelect={(key: string) => handleKabupatenClick(key)}
                   selectedKey={selectedKabupaten}
+                  debug={process.env.NEXT_PUBLIC_MAP_DEBUG === '1'}
                 />
               </div>
 

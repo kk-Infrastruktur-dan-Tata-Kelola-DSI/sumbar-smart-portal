@@ -15,10 +15,12 @@ export default function MapSumbar({
   items,
   onSelect,
   selectedKey,
+  debug = false,
 }: {
   items: KabupatenItem[];
   onSelect: (key: string) => void;
   selectedKey?: string | null;
+  debug?: boolean;
 }) {
   const center: [number, number] = [-0.7399, 100.3835]; // sekitar Sumbar
 
@@ -38,6 +40,12 @@ export default function MapSumbar({
       link.id = cssId;
       link.rel = "stylesheet";
       link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      link.onload = () => {
+        if (debug) console.info("[MapSumbar] Leaflet CSS loaded successfully");
+      };
+      link.onerror = (e) => {
+        console.warn("[MapSumbar] Failed to load Leaflet CSS. Interactivity/markers may be broken.", e);
+      };
       document.head.appendChild(link);
     }
 
@@ -87,6 +95,29 @@ export default function MapSumbar({
         .leaflet-tooltip-top::before {
           border-top-color: rgba(255, 255, 255, 0.98) !important;
         }
+        /* Safety: make sure map container/panes accept pointer events in Chromium */
+        .leaflet-container,
+        .leaflet-pane,
+        .leaflet-pane * {
+          pointer-events: auto !important;
+        }
+        .leaflet-container {
+          touch-action: auto !important;
+          -ms-touch-action: manipulation !important;
+          cursor: grab;
+        }
+        /* Visual feedback on marker interaction */
+        .custom-pin-icon:hover {
+          transform: scale(1.05);
+          transition: transform 0.2s ease;
+        }
+        .custom-pin-icon:active {
+          transform: scale(0.95);
+          transition: transform 0.1s ease;
+        }
+        .custom-pin-icon {
+          transition: transform 0.2s ease;
+        }
       `;
       document.head.appendChild(style);
     }
@@ -94,10 +125,13 @@ export default function MapSumbar({
     let cancelled = false;
     import("leaflet")
       .then((L) => {
-        if (!cancelled) setLmods(L);
+        if (!cancelled) {
+          if (debug) console.info("[MapSumbar] Leaflet module loaded", { ua: navigator.userAgent });
+          setLmods(L);
+        }
       })
       .catch(() => {
-        // ignore
+        console.warn("[MapSumbar] Failed to dynamically import 'leaflet'. Map will not render.");
       });
 
     return () => {
@@ -112,6 +146,14 @@ export default function MapSumbar({
 
     const L = Lmods.default || Lmods;
 
+    // Make sure container is interactive and focusable (helps a11y and some Chromium edge cases)
+    try {
+      containerRef.current.style.pointerEvents = "auto";
+      containerRef.current.style.zIndex = "0";
+      containerRef.current.setAttribute("tabindex", "0");
+      containerRef.current.setAttribute("role", "application");
+    } catch {}
+
     const map = L.map(containerRef.current, {
       center,
       zoom: 7.5, // Slightly zoomed out for better spacing
@@ -125,6 +167,69 @@ export default function MapSumbar({
     }).addTo(map);
 
     mapRef.current = map;
+
+    if (debug) {
+      console.info("[MapSumbar] Map initialized", {
+        center,
+        zoom: map.getZoom(),
+      });
+
+      const rect = containerRef.current?.getBoundingClientRect();
+      const cs = containerRef.current ? window.getComputedStyle(containerRef.current) : null;
+      console.info("[MapSumbar] Container metrics", {
+        rect,
+        pointerEvents: cs?.pointerEvents,
+        zIndex: cs?.zIndex,
+      });
+
+      // Log map click events
+      map.on("click", (e: any) => {
+        console.debug("[MapSumbar] Map click", e?.latlng);
+      });
+
+      // Capture click at container level and show overlay element stack
+      const onContainerClick = (ev: MouseEvent) => {
+        const { clientX, clientY } = ev;
+        // @ts-ignore elementsFromPoint exists in all target browsers
+        const stack = document.elementsFromPoint(clientX, clientY) as HTMLElement[];
+        const summary = stack.slice(0, 8).map((el) => ({
+          tag: el.tagName,
+          id: el.id,
+          class: el.className,
+          z: window.getComputedStyle(el).zIndex,
+          pe: window.getComputedStyle(el).pointerEvents,
+        }));
+        console.debug("[MapSumbar] Click stack (top->bottom)", summary);
+      };
+      containerRef.current?.addEventListener("click", onContainerClick, { capture: true });
+
+      // After first paint, probe center point for overlays blocking pointer events
+      setTimeout(() => {
+        try {
+          const rect2 = containerRef.current?.getBoundingClientRect();
+          if (rect2) {
+            const cx = rect2.left + rect2.width / 2;
+            const cy = rect2.top + rect2.height / 2;
+            const stack = document.elementsFromPoint(cx, cy) as HTMLElement[];
+            const blocker = stack.find((el) => el !== containerRef.current && !el.className.toString().includes("leaflet") && window.getComputedStyle(el).pointerEvents !== "none");
+            if (blocker) {
+              console.warn("[MapSumbar] Potential overlay above map center", {
+                tag: blocker.tagName,
+                id: blocker.id,
+                class: blocker.className,
+                z: window.getComputedStyle(blocker).zIndex,
+                pe: window.getComputedStyle(blocker).pointerEvents,
+              });
+            }
+          }
+        } catch {}
+      }, 300);
+
+      // Cleanup
+      return () => {
+        containerRef.current?.removeEventListener("click", onContainerClick, { capture: true } as any);
+      };
+    }
 
     return () => {
       try {
@@ -147,107 +252,72 @@ export default function MapSumbar({
 
     const layer = L.layerGroup();
 
-    items.forEach((kab: any) => {
+    items.forEach((kab: any, idx: number) => {
       const fill = kab.color ?? "#F97316";
       const isSel = selectedKey === kab.key;
       const itemCount = kab.itemCount || 0;
 
-      // Create custom colored pin icon using divIcon
-      const pinIcon = L.divIcon({
-        className: 'leaflet-div-icon custom-pin-icon',
-        html: `
-          <div style="position: relative; width: 30px; height: 40px; filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.3)); pointer-events: auto;">
-            <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg" style="pointer-events: auto; cursor: pointer;">
-              <path 
-                d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
-                fill="${fill}" 
-                stroke="${isSel ? '#FACC15' : '#FFFFFF'}" 
-                stroke-width="${isSel ? '3' : '2'}"
-              />
-              <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
-              <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="${fill}">${itemCount}</text>
-            </svg>
-          </div>
-        `,
-        iconSize: [30, 40],
-        iconAnchor: [15, 40],
-        popupAnchor: [0, -40]
-      });
+      console.log('[MapSumbar] 🎨 Creating marker for', kab.key, 'color:', fill);
 
-      const marker = L.marker([kab.lat, kab.lng], { icon: pinIcon, riseOnHover: true, keyboard: true, title: kab.name, interactive: true }).addTo(layer);
-
-      // As an extra safety for Chrome/Edge, bind click directly on the icon element
-      marker.once('add', () => {
-        const el = marker.getElement?.();
-        if (el) {
-          const Lmod = Lmods.default || Lmods;
-          el.style.pointerEvents = 'auto';
-          el.setAttribute('role', 'button');
-          el.setAttribute('tabindex', '0');
-          // Use Leaflet's DomEvent to prevent map dragging from swallowing clicks
-          Lmod.DomEvent.on(el, 'click', (e: any) => {
-            Lmod.DomEvent.stopPropagation(e);
-            Lmod.DomEvent.preventDefault(e);
-            onSelect(kab.key);
-          });
-          Lmod.DomEvent.on(el, 'keydown', (e: any) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              Lmod.DomEvent.stopPropagation(e);
-              Lmod.DomEvent.preventDefault(e);
-              onSelect(kab.key);
-            }
-          });
-        }
-      });
-
-      // Tooltip on hover
+      // USE CIRCLEMARKER - native Leaflet, clicks work reliably in Chrome!
+      const marker = L.circleMarker([kab.lat, kab.lng], {
+        radius: isSel ? 12 : 10,
+        fillColor: fill,
+        fillOpacity: 0.9,
+        color: isSel ? '#FACC15' : '#FFFFFF',
+        weight: isSel ? 3 : 2,
+        interactive: true,
+        bubblingMouseEvents: false
+      }).addTo(layer);
+      
+      // Tooltip on hover (shows kabupaten name + count)
       const tooltipContent = `<div style="text-align: center;"><strong>${kab.name}</strong><br/><span style="font-size: 11px; color: #666;">${itemCount} item budaya</span></div>`;
       marker.bindTooltip(tooltipContent, { 
         direction: "top", 
-        offset: [0, -40], 
+        offset: [0, -15], 
         opacity: 0.95,
         className: "custom-tooltip"
       });
 
-      // Click handler for marker
-      marker.on("click", () => onSelect(kab.key));
+      // Store marker data
+      (marker as any)._kabKey = kab.key;
+      (marker as any)._kabName = kab.name;
       
-      // Hover effects
-      marker.on("mouseover", () => {
-        if (!isSel) {
-          marker.setIcon(L.divIcon({
-            className: 'leaflet-div-icon custom-pin-icon',
-            html: `
-              <div style="position: relative; width: 30px; height: 40px; filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.4)); pointer-events: auto;">
-                <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg" style="pointer-events: auto; cursor: pointer;">
-                  <path 
-                    d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
-                    fill="${fill}" 
-                    stroke="#FACC15" 
-                    stroke-width="3"
-                  />
-                  <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
-                  <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="${fill}">${itemCount}</text>
-                </svg>
-              </div>
-            `,
-            iconSize: [30, 40],
-            iconAnchor: [15, 40],
-            popupAnchor: [0, -40]
-          }));
+      // Click handler - works in all browsers with CircleMarker!
+      marker.on('click', (e: any) => {
+        console.log('[MapSumbar] 🟣 CircleMarker clicked ->', kab.key);
+        L.DomEvent.stopPropagation(e);
+        try {
+          onSelect(kab.key);
+        } catch (err) {
+          console.error('[MapSumbar] Error in marker click:', err);
         }
       });
       
-      marker.on("mouseout", () => {
+      // Hover effect - enlarge circle slightly
+      marker.on('mouseover', () => {
         if (!isSel) {
-          marker.setIcon(pinIcon);
+          marker.setStyle({ radius: 12 });
+        }
+      });
+      
+      marker.on('mouseout', () => {
+        if (!isSel) {
+          marker.setStyle({ radius: 10 });
         }
       });
     });
 
     layer.addTo(mapRef.current);
     markersLayerRef.current = layer;
-  }, [items, selectedKey, Lmods, onSelect]);
+    
+    console.log(`[MapSumbar] ✅ Rendered ${items.length} CircleMarkers on map`, {
+      keys: items.map(k => k.key),
+      selectedKey
+    });
+    
+    console.log('[MapSumbar] 🎯 CircleMarkers use native Leaflet clicks - should work in all browsers!');
+  }, [items, selectedKey, Lmods, onSelect, debug]);
 
   // Don't render on server to avoid hydration mismatch
   if (!mounted) return null;

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map Click Test - Chrome vs Firefox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+    .test-button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid #333;
+      background: #f0f0f0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .test-button:hover {
+      background: #e0e0e0;
+    }
+    .test-button:active {
+      transform: scale(0.95);
+    }
+    .log-area {
+      background: #1e1e1e;
+      color: #0f0;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+    .log-entry {
+      margin: 2px 0;
+      padding: 2px 0;
+      border-bottom: 1px solid #333;
+    }
+    .log-entry.click { color: #0f0; }
+    .log-entry.mousedown { color: #ff0; }
+    .log-entry.error { color: #f00; }
+    .svg-test {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .svg-test:hover {
+      transform: scale(1.1);
+    }
+    .svg-test:active {
+      transform: scale(0.95);
+    }
+    .info {
+      background: #e3f2fd;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Map Marker Click Test</h1>
+  
+  <div class="info">
+    <strong>Browser:</strong> <span id="browser-info"></span><br>
+    <strong>Test Purpose:</strong> Verify click events work on SVG markers in Chrome vs Firefox
+  </div>
+
+  <div class="test-section">
+    <h2>Test 1: Native HTML Button</h2>
+    <button class="test-button" id="native-button">
+      Click me (Native Button)
+    </button>
+    <p>✅ Expected: Should work in all browsers</p>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: SVG with Click Event</h2>
+    <svg width="50" height="60" viewBox="0 0 30 40" class="svg-test" id="svg-click">
+      <path 
+        d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
+        fill="#3b82f6" 
+        stroke="#FFFFFF" 
+        stroke-width="2"
+      />
+      <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
+      <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#3b82f6">5</text>
+    </svg>
+    <p>❓ Test: Click on the SVG pin above</p>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 3: SVG with Mousedown Event</h2>
+    <svg width="50" height="60" viewBox="0 0 30 40" class="svg-test" id="svg-mousedown">
+      <path 
+        d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
+        fill="#f97316" 
+        stroke="#FFFFFF" 
+        stroke-width="2"
+      />
+      <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
+      <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#f97316">3</text>
+    </svg>
+    <p>❓ Test: Click on the SVG pin above (uses mousedown)</p>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 4: SVG in DIV with pointer-events</h2>
+    <div style="position: relative; width: 50px; height: 60px; pointer-events: auto; cursor: pointer;" id="svg-div-wrapper">
+      <svg width="50" height="60" viewBox="0 0 30 40" style="pointer-events: auto;">
+        <path 
+          d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
+          fill="#10b981" 
+          stroke="#FFFFFF" 
+          stroke-width="2"
+        />
+        <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
+        <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#10b981">7</text>
+      </svg>
+    </div>
+    <p>❓ Test: Click on the SVG pin in wrapper (mimics Leaflet divIcon)</p>
+  </div>
+
+  <div class="test-section">
+    <h2>Event Log</h2>
+    <button class="test-button" onclick="clearLog()">Clear Log</button>
+    <div class="log-area" id="log-area"></div>
+  </div>
+
+  <script>
+    // Browser detection
+    const ua = navigator.userAgent;
+    let browserName = 'Unknown';
+    if (ua.includes('Chrome') && !ua.includes('Edg')) browserName = 'Chrome';
+    else if (ua.includes('Edg')) browserName = 'Edge';
+    else if (ua.includes('Firefox')) browserName = 'Firefox';
+    else if (ua.includes('Safari') && !ua.includes('Chrome')) browserName = 'Safari';
+    
+    document.getElementById('browser-info').textContent = `${browserName} (${ua})`;
+
+    // Logging function
+    function log(message, type = 'info') {
+      const logArea = document.getElementById('log-area');
+      const timestamp = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+      logArea.appendChild(entry);
+      logArea.scrollTop = logArea.scrollHeight;
+      console.log(`[Test] ${message}`);
+    }
+
+    function clearLog() {
+      document.getElementById('log-area').innerHTML = '';
+    }
+
+    // Test 1: Native button
+    document.getElementById('native-button').addEventListener('click', (e) => {
+      log('Native button clicked ✅', 'click');
+    });
+
+    // Test 2: SVG with click
+    const svgClick = document.getElementById('svg-click');
+    svgClick.addEventListener('click', (e) => {
+      log('SVG click event fired ✅', 'click');
+      e.stopPropagation();
+      e.preventDefault();
+    });
+
+    // Test 3: SVG with mousedown
+    const svgMousedown = document.getElementById('svg-mousedown');
+    svgMousedown.addEventListener('mousedown', (e) => {
+      log('SVG mousedown event fired ✅', 'mousedown');
+      e.stopPropagation();
+      e.preventDefault();
+    });
+    svgMousedown.addEventListener('click', (e) => {
+      log('SVG click also fired after mousedown', 'click');
+    });
+
+    // Test 4: DIV wrapper with SVG
+    const divWrapper = document.getElementById('svg-div-wrapper');
+    divWrapper.addEventListener('click', (e) => {
+      log('DIV wrapper click event fired ✅', 'click');
+      e.stopPropagation();
+      e.preventDefault();
+    });
+    divWrapper.addEventListener('mousedown', (e) => {
+      log('DIV wrapper mousedown event fired ✅', 'mousedown');
+    });
+
+    // Initial log
+    log(`Test page loaded in ${browserName}`, 'info');
+    log('Try clicking each SVG marker and check if events fire', 'info');
+  </script>
+</body>
+</html>
