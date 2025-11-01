@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
-import { Card, CardBody } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/skeleton";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function InovasiPage() {
     const [loading, setLoading] = React.useState(true);
@@ -32,10 +30,6 @@ export default function InovasiPage() {
         }
     ];
 
-    if (loading) {
-        return <InovasiSkeleton />;
-    }
-
     return (
         <div className="min-h-screen bg-white">
             {/* Header Section */}
@@ -50,98 +44,71 @@ export default function InovasiPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4">
-                <section className="mb-16">
-                    <div className="max-w-6xl mx-auto space-y-20">
-                        {innovations.map((item, index) => (
-                            <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                <div className={index % 2 === 0 ? "md:order-2" : ""}>
-                                    <div className="relative w-full aspect-square max-w-md mx-auto">
-                                        <Image
-                                            src={item.image}
-                                            alt={item.title}
-                                            fill
-                                            className="object-contain"
-                                            priority={index === 0}
-                                        />
+            <div className="container mx-auto px-4 py-12">
+                <div className="max-w-6xl mx-auto space-y-20">
+                    {loading ? (
+                        <>
+                            {[1, 2].map((i) => (
+                                <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                    <div className={i % 2 === 0 ? "md:order-2" : ""}>
+                                        <Skeleton className="w-full aspect-square max-w-md mx-auto rounded-lg" />
+                                    </div>
+                                    <div className={`space-y-6 ${i % 2 === 0 ? "md:order-1" : ""}`}>
+                                        <Skeleton className="h-10 w-64 rounded-lg" />
+                                        <div className="space-y-3">
+                                            <Skeleton className="h-4 w-full rounded-lg" />
+                                            <Skeleton className="h-4 w-full rounded-lg" />
+                                            <Skeleton className="h-4 w-5/6 rounded-lg" />
+                                            <Skeleton className="h-4 w-full rounded-lg" />
+                                            <Skeleton className="h-4 w-4/5 rounded-lg" />
+                                        </div>
+                                        <Skeleton className="h-11 w-40 rounded-lg" />
                                     </div>
                                 </div>
                             ))}
                         </>
                     ) : (
                         innovations.map((item, index) => (
-                        <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                            {/* Icon/Image */}
-                            <div className={index % 2 === 0 ? "md:order-2" : ""}>
-                                <div className="relative w-full aspect-square max-w-[200px] sm:max-w-[280px] md:max-w-sm lg:max-w-md mx-auto">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-contain"
-                                        priority={index === 0}
-                                        sizes="(max-width: 640px) 200px, (max-width: 768px) 280px, (max-width: 1024px) 384px, 448px"
-                                    />
+                            <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                                {/* Icon/Image */}
+                                <div className={index % 2 === 0 ? "md:order-2" : ""}>
+                                    <div className="relative w-full aspect-square max-w-[200px] sm:max-w-[280px] md:max-w-sm lg:max-w-md mx-auto">
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-contain"
+                                            priority={index === 0}
+                                            sizes="(max-width: 640px) 200px, (max-width: 768px) 280px, (max-width: 1024px) 384px, 448px"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Text Content */}
+                                <div className={`space-y-4 md:space-y-6 ${index % 2 === 0 ? "md:order-1" : ""}`}>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground-900">
+                                        {item.title}
+                                    </h2>
+                                    <p className="text-foreground-700 leading-relaxed text-sm sm:text-base">
+                                        {item.description}
+                                    </p>
+                                    <Button
+                                        as="a"
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        color="default"
+                                        size="lg"
+                                        className="font-semibold px-6 sm:px-8 bg-foreground-900 text-white hover:bg-foreground-800"
+                                        radius="lg"
+                                    >
+                                        {item.buttonText}
+                                    </Button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </section>
-            </div>
-        </div>
-    );
-}
-
-                            {/* Text Content */}
-                            <div className={`space-y-4 md:space-y-6 ${index % 2 === 0 ? "md:order-1" : ""}`}>
-                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground-900">
-                                    {item.title}
-                                </h2>
-                                <p className="text-foreground-700 leading-relaxed text-sm sm:text-base">
-                                    {item.description}
-                                </p>
-                                <Button
-                                    as="a"
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    color="default"
-                                    size="lg"
-                                    className="font-semibold px-6 sm:px-8 bg-foreground-900 text-white hover:bg-foreground-800"
-                                    radius="lg"
-                                >
-                                    {item.buttonText}
-                                </Button>
-                            </div>
-                        </div>
                         ))
                     )}
                 </div>
-            </div>
-
-            <div className="container mx-auto px-4">
-                <section className="mb-16">
-                    <div className="max-w-6xl mx-auto space-y-20">
-                        {[1, 2].map((i) => (
-                            <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                <div className={i % 2 === 0 ? "md:order-2" : ""}>
-                                    <Skeleton className="w-full aspect-square max-w-md mx-auto rounded-lg" />
-                                </div>
-                                <div className={`space-y-6 ${i % 2 === 0 ? "md:order-1" : ""}`}>
-                                    <Skeleton className="h-10 w-64 rounded-lg" />
-                                    <div className="space-y-3">
-                                        <Skeleton className="h-4 w-full rounded-lg" />
-                                        <Skeleton className="h-4 w-full rounded-lg" />
-                                        <Skeleton className="h-4 w-5/6 rounded-lg" />
-                                        <Skeleton className="h-4 w-full rounded-lg" />
-                                        <Skeleton className="h-4 w-4/5 rounded-lg" />
-                                    </div>
-                                    <Skeleton className="h-12 w-48 rounded-full" />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
             </div>
         </div>
     );

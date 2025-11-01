@@ -92,12 +92,7 @@ export default function AntiHoaxPage() {
                             </p>
                         </div>
                     </div>
-                </section>
-
-                {/* Client Component with Loading State */}
-                <Suspense fallback={<AntiHoaxSkeleton />}>
-                    <AntiHoaxClient hoaxData={hoax} verifiedData={verified} />
-                </Suspense>
+                </div>
             </div>
 
             <div className="max-w-[1400px] mx-auto px-8 py-8">
