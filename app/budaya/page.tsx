@@ -133,13 +133,13 @@ export default function BudayaPage() {
         {/* Header Skeleton */}
         <div className="text-black">
           <div className="container mx-auto px-4 py-16 text-center">
-            <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3 justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+              Budaya Sumbar
+            </h1>
+            <div className="flex items-center gap-2 text-sm text-foreground-600 mb-4 justify-center">
               <span><MapPin size={16}></MapPin></span>
               <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Budaya Sumbar
-            </h1>
             <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
               Menampilkan warisan budaya, kuliner, dan destinasi alam Sumbar dengan
               storytelling visual dan konten interaktif.
@@ -202,13 +202,13 @@ export default function BudayaPage() {
       {/* Header Section */}
       <div className="text-black">
         <div className="container mx-auto px-4 py-16 text-center">
-          <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3 justify-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3">
+            Budaya Sumbar
+          </h1>
+          <div className="flex items-center gap-2 text-sm text-foreground-600 mb-4 justify-center">
             <span><MapPin size={16}></MapPin></span>
             <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Budaya Sumbar
-          </h1>
           <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
             Menampilkan warisan budaya, kuliner, dan destinasi alam Sumbar dengan
             storytelling visual dan konten interaktif.
@@ -255,7 +255,7 @@ export default function BudayaPage() {
             {/* Destinations Count */}
             <div className="flex items-center justify-between">
               <p className="text-foreground-600">
-                Menampilkan <span className="font-semibold text-foreground-900">{filteredDestinations.length}</span> destinasi wisata
+                Menampilkan <span className="font-semibold text-foreground-900">{filteredDestinations.length}</span> dokumentasi budaya
               </p>
               {selectedKabupaten && (
                 <Button
@@ -273,7 +273,7 @@ export default function BudayaPage() {
             {/* Destinations Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredDestinations.map((dest) => (
-                <Card key={dest.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                <Card key={dest.id} className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -361,7 +361,7 @@ export default function BudayaPage() {
 
           {/* Right Sidebar - Interactive Map */}
           <div className="lg:col-span-5">
-            <Card className="sticky top-4 overflow-hidden">
+            <Card className="sticky top-4 overflow-hidden border border-gray-200 shadow-sm">
               <div className="bg-white p-4">
                 <h3 className="font-bold text-lg mb-1">Peta Budaya</h3>
                 <p className="text-sm text-foreground-600">Klik pin untuk memfilter semua konten: objek, tradisi, dan kuliner</p>

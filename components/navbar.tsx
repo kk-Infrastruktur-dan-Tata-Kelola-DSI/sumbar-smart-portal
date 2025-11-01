@@ -22,8 +22,7 @@ import {
 import Image from "next/image";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
-import { Bell, Search, Globe, ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
@@ -31,6 +30,7 @@ import React from "react";
 
 import { siteConfig } from "@/config/site";
 import logoImage from '@/public/images/logo.png';
+import MinangQuote from "./MinangQuote";
 
 export const Navbar = () => {
     const pathname = usePathname();
@@ -40,19 +40,6 @@ export const Navbar = () => {
         setMounted(true);
     }, []);
 
-    const searchInput = (
-        <Input
-            aria-label="Search"
-            classNames={{
-                inputWrapper: "bg-default-100",
-                input: "text-sm",
-            }}
-            startContent={<Search className="w-4 h-4 text-gray-500 flex-shrink-0" />}
-            placeholder="Cari Informasi..."
-            className="w-full"
-        />
-    );
-
     const profilDropdownItems = [
         { name: "Visi & Misi", href: "/profile" },
         { name: "Struktur dan Organisasi", href: "/profile#struktur" },
@@ -60,22 +47,14 @@ export const Navbar = () => {
     ];
 
     const informasiDropdownItems = [
-        { name: "Berita", href: "/informasi" },
-        { name: "Infografis", href: "/informasi#infografis" },
-        { name: "Foto", href: "/informasi#foto" },
-        { name: "Video", href: "/informasi#video" },
-        { name: "Agenda", href: "/informasi#agenda" },
+        { name: "Informasi", href: "/informasi" },
+        { name: "Berita", href: "/informasi/berita" },
+        { name: "Foto", href: "/informasi/foto" },
+        { name: "Video", href: "/informasi/video" },
+        { name: "Infografis", href: "/informasi/infografis" },
+        { name: "Agenda", href: "/informasi/agenda" },
         { name: "Pedoman Teknis", href: "/informasi#pedoman-teknis" },
     ];
-
-    const layananDropdownItems = [
-        { name: "Standar Layanan Publik", href: "/layanan" },
-        { name: "Maklumat Pelayanan", href: "/layanan#maklumat-pelayanan" },
-        { name: "Pengelolaan Pengaduan", href: "/layanan#pengelolaan-pengaduan" },
-        { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
-    ];
-
-
 
     const navLinks = [
         { name: "Beranda", href: "/" },
@@ -83,7 +62,7 @@ export const Navbar = () => {
         { name: "Informasi", href: "/informasi", hasDropdown: true, dropdownItems: informasiDropdownItems },
         { name: "Pengumuman", href: "/pengumuman"},
         { name: "Anti Hoax", href: "/anti_hoax" },
-        { name: "Informasi Layanan", href: "/layanan", hasDropdown: true, dropdownItems: layananDropdownItems },
+        { name: "Informasi Layanan", href: "/informasi-layanan"},
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
         { name: "Inovasi", href: "/inovasi" },
@@ -118,61 +97,17 @@ export const Navbar = () => {
                     </NavbarBrand>
                 </NavbarContent>
 
-                {/* Kanan: Search + Icons */}
+                {/* Kanan: Minang Quote */}
                 <NavbarContent justify="end" className="gap-1 flex-shrink-0">
-                    <NavbarItem className="hidden lg:flex w-auto max-w-[300px]">
-                        {searchInput}
-                    </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <Button 
-                            isIconOnly 
-                            variant="light" 
-                            aria-label="Notifikasi" 
-                            size="sm"
-                            className="w-8 h-8 min-w-8"
-                        >
-                            <Bell className="w-4 h-4" />
-                        </Button>
-                    </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <Button 
-                            isIconOnly 
-                            variant="light" 
-                            aria-label="Bahasa"
-                            size="sm"
-                            className="w-8 h-8 min-w-8"
-                        >
-                            <Globe className="w-4 h-4" />
-                        </Button>
+                    <NavbarItem className="hidden lg:flex">
+                        <MinangQuote />
                     </NavbarItem>
                 </NavbarContent>
 
                 {/* Mobile/Tablet Menu */}
                 <NavbarMenu className="pt-4 px-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                    <NavbarMenuItem className="lg:hidden mb-3">
-                        {searchInput}
-                    </NavbarMenuItem>
-                    
-                    {/* Mobile Icons Section */}
-                    <NavbarMenuItem className="md:hidden mb-3 flex flex-row gap-2 items-center pb-3 border-b border-divider">
-                        <Button 
-                            variant="flat" 
-                            aria-label="Notifikasi" 
-                            size="sm"
-                            startContent={<Bell className="w-4 h-4" />}
-                            className="flex-1"
-                        >
-                            Notifikasi
-                        </Button>
-                        <Button 
-                            variant="flat" 
-                            aria-label="Bahasa"
-                            size="sm"
-                            startContent={<Globe className="w-4 h-4" />}
-                            className="flex-1"
-                        >
-                            Bahasa
-                        </Button>
+                    <NavbarMenuItem className="lg:hidden mb-3 pb-3 border-b border-divider">
+                        <MinangQuote />
                     </NavbarMenuItem>
                     
                     {navLinks.map((item, index) => {
@@ -198,7 +133,7 @@ export const Navbar = () => {
                                             title={
                                                 <span className={clsx(
                                                     "text-base font-medium",
-                                                    (isActive || isSubItemActive) && "text-[#FFB900] font-semibold"
+                                                    (isActive || isSubItemActive) && "text-white bg-[#FFB900] rounded-full font-semibold px-4 py-2"
                                                 )}>
                                                     {item.name}
                                                 </span>
@@ -213,7 +148,7 @@ export const Navbar = () => {
                                                             href={subItem.href}
                                                             className={clsx(
                                                                 "w-full text-sm py-2",
-                                                                isSubActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                                                isSubActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                                             )}
                                                         >
                                                             {subItem.name}
@@ -232,7 +167,7 @@ export const Navbar = () => {
                                 <Link
                                     className={clsx(
                                         "w-full block text-base font-medium py-2",
-                                        isActive ? "text-[#FFB900] font-semibold" : "text-foreground"
+                                        isActive ? "text-white bg-[#FFB900] rounded-full font-semibold px-4" : "text-foreground"
                                     )}
                                     href={item.href}
                                 >

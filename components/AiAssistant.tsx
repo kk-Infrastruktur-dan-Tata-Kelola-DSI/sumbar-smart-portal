@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Spinner } from "@heroui/spinner";
@@ -11,6 +12,7 @@ import { useTTS } from "@/contexts/TTSContext";
 import type { AIMessage } from "@/types/ai";
 
 export default function AiAssistant() {
+  const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [messages, setMessages] = React.useState<AIMessage[]>([]);
@@ -71,7 +73,11 @@ export default function AiAssistant() {
       const res = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: messageText, stream: true }),
+        body: JSON.stringify({ 
+          prompt: messageText, 
+          stream: true,
+          currentPage: pathname 
+        }),
       });
 
       if (!res.ok) {

@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useState } from 'react';
 import CardAntiHoax from "@/components/card_antihoax";
 import PopupAntiHoax from "@/components/popup-antihoax";
-import React, { useState } from 'react';
 import { AntiHoax } from "@/utils/antihoax-queries";
 
 interface AntiHoaxClientProps {
@@ -26,14 +26,18 @@ export default function AntiHoaxClient({ hoaxData, verifiedData }: AntiHoaxClien
 
     return (
         <>
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="container mx-auto px-4">
                 {/* Klarifikasi Informasi Hoax Section */}
-                <div className="mb-12">
-                    <h1 className="text-3xl font-bold text-red-900 mb-8">
-                        Klarifikasi Informasi Hoax
-                    </h1>
+                <section className="mb-16">
+                    <div className="flex items-center gap-6 mb-8">
+                        <h2 className="text-2xl font-bold text-red-900">
+                            Klarifikasi Informasi Hoax
+                        </h2>
+                        <div className="h-[3px] flex-grow bg-red-900/20"></div>
+                    </div>
+                    
                     {hoaxData.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {hoaxData.map((item) => (
                                 <CardAntiHoax
                                     key={item.id}
@@ -46,19 +50,23 @@ export default function AntiHoaxClient({ hoaxData, verifiedData }: AntiHoaxClien
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-12 text-gray-500">
-                            Belum ada data klarifikasi hoax
+                        <div className="text-center py-12 bg-white rounded-xl shadow-md">
+                            <p className="text-gray-500">Belum ada data klarifikasi hoax</p>
                         </div>
                     )}
-                </div>
+                </section>
                 
                 {/* Berita Terverifikasi Section */}
-                <div>
-                    <h2 className="text-3xl font-bold text-red-900 mb-8">
-                        Berita Terverifikasi
-                    </h2>
+                <section className="mb-16">
+                    <div className="flex items-center gap-6 mb-8">
+                        <h2 className="text-2xl font-bold text-red-900">
+                            Berita Terverifikasi
+                        </h2>
+                        <div className="h-[3px] flex-grow bg-red-900/20"></div>
+                    </div>
+                    
                     {verifiedData.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {verifiedData.map((item) => (
                                 <CardAntiHoax
                                     key={item.id}
@@ -71,11 +79,11 @@ export default function AntiHoaxClient({ hoaxData, verifiedData }: AntiHoaxClien
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-12 text-gray-500">
-                            Belum ada berita terverifikasi
+                        <div className="text-center py-12 bg-white rounded-xl shadow-md">
+                            <p className="text-gray-500">Belum ada berita terverifikasi</p>
                         </div>
                     )}
-                </div>
+                </section>
             </div>
 
             {/* Popup Component */}
