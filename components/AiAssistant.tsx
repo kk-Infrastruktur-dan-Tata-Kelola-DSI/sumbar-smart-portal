@@ -197,15 +197,15 @@ export default function AiAssistant() {
             Survei Kepuasan Masyarakat
           </span>
           <Button
+            as="a"
+            href="https://forms.gle/AhScbDbK5g8551C59"
+            target="_blank"
+            rel="noopener noreferrer"
             color="warning"
             radius="full"
             size="lg"
-            onPress={() => {
-              // Add your notepad action here
-              console.log("Notepad clicked");
-            }}
             isIconOnly
-            aria-label="Open Notepad"
+            aria-label="Open Survey"
             className="shadow-lg"
           >
             <NotepadText className="w-6 h-6 text-black rotate-[-15deg]" />
