@@ -4,6 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import LayananCarousel from "@/components/LayananCarousel";
 
+import placeholderHorizontal from "@/public/images/placeholder-horizontal.jpg";
+
 export default async function Home() {
   const supabase = await createClient();
   const { error } = await supabase.from("categories").select("id").limit(1);
@@ -270,7 +272,7 @@ export default async function Home() {
                 <div className="bg-white rounded-xl border border-yellow-400 shadow-sm overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
-                      src="/images/video1.jpg"
+                      src="images/placeholder-horizontal.jpg"
                       alt="Berita 1"
                       className="w-full h-44 object-cover"
                     />
@@ -339,7 +341,7 @@ export default async function Home() {
                 <div className="bg-white rounded-xl border border-yellow-400 shadow-sm overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
-                      src="/images/video2.jpg"
+                      src="images/placeholder-horizontal.jpg"
                       alt="Berita 2"
                       className="w-full h-44 object-cover"
                     />
