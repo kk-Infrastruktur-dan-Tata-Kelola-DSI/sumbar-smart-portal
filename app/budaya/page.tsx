@@ -5,6 +5,7 @@ import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Chip } from "@heroui/chip";
+import { Skeleton } from "@heroui/skeleton";
 import { Search, Filter, MapPin, Star, X, Share2, Heart } from "lucide-react";
 import Image from "next/image";
 import MapSumbar from "../../components/MapSumbar";
@@ -125,13 +126,72 @@ export default function BudayaPage() {
     setSelectedItem(null);
   };
 
-  // Show loading state
+  // Show loading state with skeleton
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warning mx-auto mb-4"></div>
-          <p className="text-foreground-600">Memuat data...</p>
+      <div className="min-h-screen bg-white">
+        {/* Header Skeleton */}
+        <div className="text-black">
+          <div className="container mx-auto px-4 py-16 text-center">
+            <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3 justify-center">
+              <span><MapPin size={16}></MapPin></span>
+              <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Budaya Sumbar
+            </h1>
+            <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
+              Menampilkan warisan budaya, kuliner, dan destinasi alam Sumbar dengan
+              storytelling visual dan konten interaktif.
+            </p>
+            {/* Keep search bar as skeleton while loading */}
+            <Skeleton className="h-12 w-full max-w-xl mx-auto rounded-lg" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Content Skeleton */}
+            <div className="lg:col-span-7 space-y-6">
+              {/* Category Pills Skeleton */}
+              <div className="flex gap-2 flex-wrap">
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-8 w-24 rounded-lg" />
+                ))}
+              </div>
+
+              <Skeleton className="h-6 w-64 rounded-lg" />
+
+              {/* Destination Cards Skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <Card key={i} className="overflow-hidden">
+                    <Skeleton className="h-48 w-full rounded-none" />
+                    <div className="p-4 space-y-3">
+                      <Skeleton className="h-6 w-3/4 rounded-lg" />
+                      <Skeleton className="h-4 w-full rounded-lg" />
+                      <Skeleton className="h-4 w-5/6 rounded-lg" />
+                      <div className="flex gap-2">
+                        <Skeleton className="h-6 w-16 rounded-lg" />
+                        <Skeleton className="h-6 w-20 rounded-lg" />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Map Skeleton */}
+            <div className="lg:col-span-5">
+              <Card className="sticky top-4 overflow-hidden">
+                <div className="bg-white p-4 border-b space-y-2">
+                  <Skeleton className="h-6 w-32 rounded-lg" />
+                  <Skeleton className="h-4 w-full rounded-lg" />
+                </div>
+                <Skeleton className="h-[600px] w-full rounded-none" />
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -140,43 +200,33 @@ export default function BudayaPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header Section */}
-      <div className="bg-white ">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3">
-              <span><MapPin></MapPin></span>
-              <span>Jelajah Keindahan Sumatera Barat</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground-900 mb-4">
-              Budaya Sumbar
-            </h1>
-            <p className="text-lg text-foreground-700 mb-8 max-w-2xl">
-              Menampilkan warisan budaya, kuliner, dan destinasi alam Sumbar dengan
-              storytelling visual dan konten interaktif.
-            </p>
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <div className="flex items-center gap-2 text-sm text-foreground-600 mb-3 justify-center">
+            <span><MapPin size={16}></MapPin></span>
+            <span>Jelajah Kekayaan Budaya Sumatera Barat</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Budaya Sumbar
+          </h1>
+          <p className="text-lg opacity-90 max-w-3xl mx-auto mb-8">
+            Menampilkan warisan budaya, kuliner, dan destinasi alam Sumbar dengan
+            storytelling visual dan konten interaktif.
+          </p>
 
-            {/* Search Bar */}
-            <div className="flex gap-3 flex-wrap">
-              <Input
-                placeholder="Cari destinasi wisata..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                startContent={<Search className="text-foreground-400" size={20} />}
-                classNames={{
-                  input: "text-base",
-                  inputWrapper: "bg-white shadow-sm h-12",
-                }}
-                className="flex-1 min-w-[280px]"
-              />
-              <Button
-                color="default"
-                variant="flat"
-                startContent={<Filter size={20} />}
-                className="h-12"
-              >
-                Filter
-              </Button>
-            </div>
+          {/* Search Bar */}
+          <div className="flex gap-3 flex-wrap justify-center max-w-xl mx-auto">
+            <Input
+              placeholder="Cari budaya..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              startContent={<Search className="text-foreground-500" size={20} />}
+              classNames={{
+                input: "text-base",
+                inputWrapper: "bg-gray-50 border-2 border-gray-300 shadow-md h-12 hover:border-gray-400 focus-within:!border-foreground-900 transition-colors",
+              }}
+              className="flex-1 min-w-[280px]"
+            />
           </div>
         </div>
       </div>
@@ -239,7 +289,7 @@ export default function BudayaPage() {
                         variant="flat"
                         className="bg-white/90 backdrop-blur"
                       >
-                        <Heart></Heart>
+                        <Heart size={16}></Heart>
                       </Button>
                       <Button
                         isIconOnly
@@ -247,7 +297,7 @@ export default function BudayaPage() {
                         variant="flat"
                         className="bg-white/90 backdrop-blur"
                       >
-                        <Share2></Share2>
+                        <Share2 size={16}></Share2>
                       </Button>
                     </div>
                     <div className="absolute bottom-2 left-2">
@@ -312,7 +362,7 @@ export default function BudayaPage() {
           {/* Right Sidebar - Interactive Map */}
           <div className="lg:col-span-5">
             <Card className="sticky top-4 overflow-hidden">
-              <div className="bg-white p-4 border-b">
+              <div className="bg-white p-4">
                 <h3 className="font-bold text-lg mb-1">Peta Budaya</h3>
                 <p className="text-sm text-foreground-600">Klik pin untuk memfilter semua konten: objek, tradisi, dan kuliner</p>
               </div>

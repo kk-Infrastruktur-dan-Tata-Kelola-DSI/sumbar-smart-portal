@@ -75,11 +75,7 @@ export const Navbar = () => {
         { name: "Survey Kepuasan Masyarakat", href: "/layanan#survey-kepuasan" },
     ];
 
-    const inovasiDropdownItems = [
-        { name: "PPID", href: "/inovasi" },
-        { name: "Aplikasi SIDADOK", href: "/inovasi#sidadok" },
-        { name: "Aplikasi E-Riset", href: "/inovasi#e-riset" },
-    ];
+
 
     const navLinks = [
         { name: "Beranda", href: "/" },
@@ -90,7 +86,7 @@ export const Navbar = () => {
         { name: "Informasi Layanan", href: "/layanan", hasDropdown: true, dropdownItems: layananDropdownItems },
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
-        { name: "Inovasi", href: "/inovasi", hasDropdown: true, dropdownItems: inovasiDropdownItems },
+        { name: "Inovasi", href: "/inovasi" },
     ];
 
     return (

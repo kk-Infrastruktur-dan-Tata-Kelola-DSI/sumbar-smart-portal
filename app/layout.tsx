@@ -6,6 +6,7 @@ import { fontSans } from "@/config/fonts";
 import AiAssistant from "@/components/AiAssistant";
 import Footer from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import TopProgress from "@/components/TopProgress";
 
 export const metadata: Metadata = {
   title: "Sumbar Smart Portal",
@@ -36,6 +37,8 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light", enableSystem: false }}>
           <div className="flex flex-col min-h-screen">
+            {/* Global top loading indicator for route transitions */}
+            <TopProgress />
             <Navbar/>
             <main className="flex-1">
               <AiAssistant />
