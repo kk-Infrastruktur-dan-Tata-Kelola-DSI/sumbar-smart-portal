@@ -2,6 +2,7 @@
 
 import { MapPin, Mail, Phone } from "lucide-react"
 
+
 export default function ProfilePage() {
   const visiText = '"Terwujudnya Masyarakat Sumatera Barat yang Agamis, Berkualitas, Berdaulat, dan Sejahtera"'
 
