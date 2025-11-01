@@ -1,7 +1,8 @@
 "use client"
 
-import { MapPin, Mail, Phone } from "lucide-react"
-
+import { Users2, Megaphone, MapPin, Mail, Phone, Menu, Eye, Target } from "lucide-react"
+import Image from "next/image"
+import struktur from "@/public/images/struktur.png"
 
 export default function ProfilePage() {
   const visiText = '"Terwujudnya Masyarakat Sumatera Barat yang Agamis, Berkualitas, Berdaulat, dan Sejahtera"'
@@ -31,144 +32,101 @@ export default function ProfilePage() {
     { title: "Dinas Kepemudaan & Pariwisata Hari", subtitle: "" },
   ]
 
-  const bodies = ["Bappeda", "BKD", "Badan Riset & Inovasi Daerah", "Satpol PP", "BPKAD", "DPRD"]
-
-  const contacts = [
-    { label: "Lokasi", value: "Jl. Gubernur No. 1, Padang 25000", icon: "📍" },
-    { label: "Email", value: "info@sumbarprov.go.id", icon: "✉️" },
-    { label: "Telepon", value: "+62 751 27000", icon: "📞" },
-  ]
+  const bodies = ["Bappeda", "BPKAD", "BKD" , "BPBD" ,"Badan Riset & Inovasi Daerah", "Inspektorat Daerah", "Satpol PP"]
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Vision and Mission Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Visi dan Misi</h2>
-
-          {/* Vision */}
-          <div className="mb-8">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-red-600 rounded flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-white text-2xl">👁️</span>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Visi</h3>
-                <p className="text-gray-700 italic text-center text-lg">{visiText}</p>
-              </div>
+          {/* VISI */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+              <Users2 className="text-white" size={32} strokeWidth={2.5} />
             </div>
+            <h2 className="text-3xl font-bold bg-gradient-to-b from-[#FBBF24] to-[#0F172A] bg-clip-text text-transparent">Visi</h2>
           </div>
+          <p className="text-lg italic text-gray-700 mb-12 ml-16">{visiText}</p>
 
-          {/* Mission */}
-          <div className="mb-8">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-yellow-400 rounded flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-white text-2xl">🎯</span>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Misi</h3>
-                <ol className="space-y-3">
-                  {misiPoints.map((point, index) => (
-                    <li key={index} className="flex gap-4 text-gray-700">
-                      <span className="font-bold text-gray-900 flex-shrink-0">{index + 1}.</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+          {/* MISI */}
+          <div className="flex items-center gap-4 mb-8 mt-12">
+            <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+              <Megaphone className="text-white" size={28} />
             </div>
+            <h2 className="text-3xl font-bold bg-gradient-to-b from-[#FBBF24] to-[#0F172A] bg-clip-text text-transparent">Misi</h2>
           </div>
+          <ol className="ml-16 space-y-3 text-gray-700 text-base">
+            {misiPoints.map((point, index) => (
+              <li key={index} className="flex gap-3">
+                <span className="font-bold text-gray-900">{index + 1}.</span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ol>
 
           {/* Yellow Banner */}
-          <div className="bg-yellow-300 rounded-lg p-6 my-8 flex justify-between items-center">
-            <span className="font-semibold text-gray-900">Mekipanggil sebagai 4 Pilar Inti</span>
-            <span className="text-gray-900 font-semibold">Mekipanggil sebagai 4 Pilar Inti</span>
+          <div className="w-full bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 rounded-lg shadow-md py-2 px-6 flex justify-end items-center text-sm font-semibold text-black mt-12">
+            Dikunjungi sebanyak 3.980 kali
           </div>
+
+
         </section>
 
         {/* Organizational Structure Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Struktur Organisasi</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Struktur Organisasi</h2>
 
-          {/* Org Chart */}
-          <div className="bg-white border border-gray-300 rounded-lg p-8 flex justify-center items-start overflow-x-auto">
-            <div className="flex flex-col items-center gap-8 min-w-full">
-              {/* Top Level */}
-              <div className="flex gap-8 justify-center">
-                <div className="border-2 border-gray-900 px-6 py-3 min-w-max">
-                  <p className="font-bold text-center text-sm">GUBERNUR</p>
-                  <p className="font-bold text-center text-sm">WAKIL GUBERNUR</p>
-                </div>
-                <div className="border-2 border-gray-900 px-6 py-3 min-w-max">
-                  <p className="font-bold text-center text-sm">DPRD</p>
-                </div>
-              </div>
-
-              {/* Second Level */}
-              <div className="border-t-2 border-gray-900 w-32"></div>
-
-              <div className="flex gap-8 justify-center">
-                <div className="border-2 border-gray-900 px-6 py-3 min-w-max">
-                  <p className="font-bold text-center text-sm">SEKRETARIS DAERAH</p>
-                  <p className="text-center text-xs mt-1">ASISTEN A</p>
-                  <p className="text-center text-xs">ASISTEN B</p>
-                  <p className="text-center text-xs">ASISTEN C</p>
-                </div>
-              </div>
-
-              {/* Third Level */}
-              <div className="border-t-2 border-gray-900 w-32"></div>
-
-              <div className="flex gap-12 justify-between">
-                <div className="border-2 border-gray-900 px-4 py-3 text-center text-xs font-bold min-w-max">
-                  <p>DINAS DAERAH</p>
-                  <p>BADAN DAERAH</p>
-                  <p>RUMAH SAKIT DAERAH</p>
-                  <p>PERUSAHAAN DAERAH</p>
-                </div>
-                <div className="border-2 border-gray-900 px-6 py-3 min-w-max">
-                  <p className="font-bold text-center text-sm">BIRO</p>
-                </div>
-              </div>
+          {/* Image Placeholder - Ganti src dengan gambar struktur organisasi Anda */}
+          <div className="bg-gray-50 rounded-xl p-8 flex justify-center">
+            <div className="relative w-full max-w-4xl">
+              <Image
+                src={struktur}
+                alt="Struktur Organisasi Pemerintah Provinsi Sumatera Barat"
+                width={1200}
+                height={800}
+                className="w-full h-auto rounded-lg"
+                priority
+              />
             </div>
           </div>
 
           {/* Yellow Banner */}
-          <div className="bg-yellow-300 rounded-lg p-6 my-8 flex justify-between items-center">
-            <span className="font-semibold text-gray-900">Mekipanggil sebagai 4 Pilar Inti</span>
-            <span className="text-gray-900 font-semibold">Mekipanggil sebagai 4 Pilar Inti</span>
+          <div className="w-full bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 rounded-lg shadow-md py-2 px-6 flex justify-end items-center text-sm font-semibold text-black mt-6">
+            Dikunjungi sebanyak 3.980 kali
           </div>
+
         </section>
 
         {/* OPD Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-4">Organisasi dan Perangkat Daerah (OPD)</h2>
-          <p className="text-center text-gray-600 mb-12">
+          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            Organisasi dan Perangkat Daerah (OPD)
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
             Daftar Organisasi Perangkat Daerah di Lingkungan Pemerintah Provinsi Sumatera Barat
           </p>
 
           {/* Secretariat */}
           <div className="mb-12">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Sekretariat Daerah</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
-                <p className="font-semibold text-gray-900">Asisten Pemerintahan</p>
-              </div>
-              <div className="bg-gray-100 p-4 rounded-lg border border-gray-300">
-                <p className="font-semibold text-gray-900">Asisten Ekonomi & Pembangunan</p>
-              </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Sekretariat Daerah</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {departments.slice(0, 3).map((dept, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 text-center font-semibold text-gray-900">
+                  {dept.title}
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Departments */}
           <div className="mb-12">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Dinas Daerah</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {departments.map((dept, index) => (
-                <div key={index} className="bg-gray-100 p-4 rounded-lg border border-gray-300">
-                  <p className="font-semibold text-gray-900">{dept.title}</p>
-                  {dept.subtitle && <p className="text-sm text-gray-600">{dept.subtitle}</p>}
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Dinas Daerah</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {departments.slice(3).map((dept, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 font-semibold text-gray-900">
+                  {dept.title}
                 </div>
               ))}
             </div>
@@ -176,15 +134,15 @@ export default function ProfilePage() {
 
           {/* Bodies & Institutions */}
           <div className="mb-12">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Badan & Lembaga</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Badan & Lembaga</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {bodies.map((body, index) => (
-                <button
+                <div
                   key={index}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-colors"
+                  className="bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-lg text-center shadow-sm text-base"
                 >
                   {body}
-                </button>
+                </div>
               ))}
             </div>
           </div>
