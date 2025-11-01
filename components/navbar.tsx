@@ -87,6 +87,7 @@ export const Navbar = () => {
         { name: "Keuangan Daerah", href: "/keuangan" },
         { name: "Budaya", href: "/budaya" },
         { name: "Inovasi", href: "/inovasi" },
+        { name: "OPD", href: "/opd" },
     ];
 
     return (

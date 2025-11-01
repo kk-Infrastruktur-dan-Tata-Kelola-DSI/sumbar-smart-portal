@@ -7,6 +7,7 @@ import AiAssistant from "@/components/AiAssistant";
 import Footer from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import TopProgress from "@/components/TopProgress";
+import { TTSProvider } from "@/contexts/TTSContext";
 
 export const metadata: Metadata = {
   title: "Sumbar Smart Portal",
@@ -36,16 +37,18 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light", enableSystem: false }}>
-          <div className="flex flex-col min-h-screen">
-            {/* Global top loading indicator for route transitions */}
-            <TopProgress />
-            <Navbar/>
-            <main className="flex-1">
-              <AiAssistant />
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <TTSProvider>
+            <div className="flex flex-col min-h-screen">
+              {/* Global top loading indicator for route transitions */}
+              <TopProgress />
+              <Navbar/>
+              <main className="flex-1">
+                <AiAssistant />
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </TTSProvider>
         </Providers>
       </body>
     </html>
