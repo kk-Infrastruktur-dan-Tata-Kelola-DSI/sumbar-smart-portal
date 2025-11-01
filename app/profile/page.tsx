@@ -52,6 +52,14 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Header Section */}
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tighter">
+            Visi & Misi
+          </h1>
+        </div>
+      </div>
 
       <div className="container mx-auto px-4">
         {/* Vision and Mission Section */}
@@ -112,6 +120,13 @@ export default function ProfilePage() {
 function ProfileSkeleton() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Header Skeleton */}
+      <div className="text-black">
+        <div className="container mx-auto px-4 py-16 text-center">
+          <Skeleton className="h-12 w-80 mx-auto rounded-lg mb-4" />
+        </div>
+      </div>
+
       <div className="container mx-auto px-4">
         {/* Vision and Mission Skeleton */}
         <section className="mb-16">
