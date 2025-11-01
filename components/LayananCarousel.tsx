@@ -13,7 +13,7 @@ const items: LayananItem[] = [
   // 1. SPJ Online
   { label: "SPJ Online", imgSrc: "/images/spj.png", bgClass: "bg-transparent" },
   // 2. Survey Kepuasan Masyarakat
-  { label: "Survey Kepuasan Masyarakat", imgSrc: "/images/survey.png", bgClass: "bg-transparent" },
+  { label: "Survey Kepuasan Masyarakat", href: "/informasi-layanan", imgSrc: "/images/survey.png", bgClass: "bg-transparent" },
   // 3. SuREK
   { label: "SuREK", imgSrc: "/images/surek.png", bgClass: "bg-transparent" },
   // 4. Info Publik

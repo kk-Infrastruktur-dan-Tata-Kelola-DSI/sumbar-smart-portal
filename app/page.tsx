@@ -329,7 +329,7 @@ export default function Home() {
                 <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
-                      src="/images/video1.jpg"
+                      src="images/placeholder-horizontal.jpg"
                       alt="Berita 1"
                       className="w-full h-44 object-cover"
                     />
@@ -398,7 +398,7 @@ export default function Home() {
                 <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
                   <div className="relative">
                     <img
-                      src="/images/video2.jpg"
+                      src="images/placeholder-horizontal.jpg"
                       alt="Berita 2"
                       className="w-full h-44 object-cover"
                     />

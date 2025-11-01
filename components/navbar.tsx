@@ -43,7 +43,6 @@ export const Navbar = () => {
     const profilDropdownItems = [
         { name: "Visi & Misi", href: "/profile" },
         { name: "Struktur dan Organisasi", href: "/profile#struktur" },
-        { name: "OPD", href: "/profile#opd" },
     ];
 
     const informasiDropdownItems = [
