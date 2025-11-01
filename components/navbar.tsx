@@ -43,15 +43,15 @@ export const Navbar = () => {
 
     const navLinks = [
         { name: "Beranda", href: "/" },
-        { name: "Profil", href: "#" },
-        { name: "Informasi", href: "#" },
-        { name: "Pengumuman", href: "#" },
-        { name: "Anti Hoax", href: "#" },
-        { name: "Informasi Layanan", href: "#" },
+        { name: "Profil", href: "/profile" },
+        { name: "Informasi", href: "/informasi" },
+        { name: "Pengumuman", href: "/pengumuman" },
+        { name: "Anti Hoax", href: "/anti_hoax" },
+        { name: "Informasi Layanan", href: "/layanan" },
         { name: "Keuangan Daerah", href: "/keuangan" },
-        { name: "Budaya", href: "#" },
-        { name: "Akuntabilitas", href: "#" },
-        { name: "Inovasi", href: "#" },
+        { name: "Budaya", href: "/budaya" },
+        { name: "Akuntabilitas", href: "/akuntabilitas" },
+        { name: "Inovasi", href: "/inovasi" },
     ];
 
     return (
