@@ -7,6 +7,7 @@ import AiAssistant from "@/components/AiAssistant";
 import Footer from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import TopProgress from "@/components/TopProgress";
+import { Suspense } from "react";
 import { TTSProvider } from "@/contexts/TTSContext";
 
 export const metadata: Metadata = {
@@ -40,7 +41,9 @@ export default function RootLayout({
           <TTSProvider>
             <div className="flex flex-col min-h-screen">
               {/* Global top loading indicator for route transitions */}
-              <TopProgress />
+              <Suspense fallback={null}>
+                <TopProgress />
+              </Suspense>
               <Navbar/>
               <main className="flex-1">
                 <AiAssistant />

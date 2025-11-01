@@ -4,10 +4,11 @@ import { getBudayaItemBySlug } from '@/utils/budaya-queries';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const item = await getBudayaItemBySlug(params.slug);
+    const { slug } = await params;
+    const item = await getBudayaItemBySlug(slug);
 
     if (!item) {
       return NextResponse.json(

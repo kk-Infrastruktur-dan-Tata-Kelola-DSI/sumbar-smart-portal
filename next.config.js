@@ -82,6 +82,28 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/budaya",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "img-src http: https: data: blob: *; media-src http: https: data: blob: *;",
+          },
+        ],
+      },
+      {
+        source: "/budaya/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "img-src http: https: data: blob: *; media-src http: https: data: blob: *;",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

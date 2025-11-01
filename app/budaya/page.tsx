@@ -91,7 +91,7 @@ export default function BudayaPage() {
     // Filter by search query
     const matchesSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.kabupaten?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.kabupaten?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description?.toLowerCase().includes(searchQuery.toLowerCase());
 
     // Filter by type (Semua, Objek, Tradisi, Kuliner)
@@ -110,6 +110,15 @@ export default function BudayaPage() {
 
     return matchesSearch && matchesType && matchesKabupaten;
   });
+
+  // Normalize external image URLs to avoid mixed-content issues
+  const toHttps = (url?: string) => {
+    if (!url) return "/placeholder.jpg";
+    if (url.startsWith("https://")) return url;
+    if (url.startsWith("http://")) return "https://" + url.slice(7);
+    if (url.startsWith("//")) return `https:${url}`;
+    return `https://${url}`;
+  };
 
   const handleKabupatenClick = (key: string) => {
     // Hanya memfilter daftar berdasarkan kabupaten yang dipilih
@@ -277,10 +286,11 @@ export default function BudayaPage() {
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
                     <Image
-                      src={dest.image_url?.startsWith('http') ? dest.image_url : `https://${dest.image_url}` || "/placeholder.jpg"}
+                      src={toHttps(dest.image_url)}
                       alt={dest.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      unoptimized
                     />
                     <div className="absolute top-2 right-2 flex gap-2">
                       <Button

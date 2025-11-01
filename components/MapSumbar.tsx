@@ -51,15 +51,27 @@ export default function MapSumbar({
           background: transparent !important;
           border: none !important;
           z-index: 1000 !important;
+          pointer-events: auto !important;
+        }
+        .custom-pin-icon > div {
+          pointer-events: auto !important;
+        }
+        /* Ensure Chrome/Edge allow clicking inside custom marker SVG */
+        .leaflet-marker-pane .custom-pin-icon,
+        .leaflet-marker-pane .custom-pin-icon * {
+          pointer-events: auto !important;
+        }
+        .leaflet-pane .leaflet-marker-icon,
+        .leaflet-pane .leaflet-marker-icon * {
+          pointer-events: auto !important;
         }
         .custom-pin-icon svg {
-          cursor: pointer;
+          cursor: pointer !important;
           transition: all 0.2s ease;
-          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+          pointer-events: auto !important;
         }
         .custom-pin-icon:hover svg {
           transform: scale(1.15);
-          filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
         }
         .custom-tooltip {
           background: rgba(255, 255, 255, 0.98) !important;
@@ -142,21 +154,15 @@ export default function MapSumbar({
 
       // Create custom colored pin icon using divIcon
       const pinIcon = L.divIcon({
-        className: 'custom-pin-icon',
+        className: 'leaflet-div-icon custom-pin-icon',
         html: `
-          <div style="position: relative; width: 30px; height: 40px;">
-            <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="shadow-${kab.key}" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
-                </filter>
-              </defs>
+          <div style="position: relative; width: 30px; height: 40px; filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.3)); pointer-events: auto;">
+            <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg" style="pointer-events: auto; cursor: pointer;">
               <path 
                 d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
                 fill="${fill}" 
                 stroke="${isSel ? '#FACC15' : '#FFFFFF'}" 
                 stroke-width="${isSel ? '3' : '2'}"
-                filter="url(#shadow-${kab.key})"
               />
               <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
               <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="${fill}">${itemCount}</text>
@@ -168,7 +174,31 @@ export default function MapSumbar({
         popupAnchor: [0, -40]
       });
 
-      const marker = L.marker([kab.lat, kab.lng], { icon: pinIcon }).addTo(layer);
+      const marker = L.marker([kab.lat, kab.lng], { icon: pinIcon, riseOnHover: true, keyboard: true, title: kab.name, interactive: true }).addTo(layer);
+
+      // As an extra safety for Chrome/Edge, bind click directly on the icon element
+      marker.once('add', () => {
+        const el = marker.getElement?.();
+        if (el) {
+          const Lmod = Lmods.default || Lmods;
+          el.style.pointerEvents = 'auto';
+          el.setAttribute('role', 'button');
+          el.setAttribute('tabindex', '0');
+          // Use Leaflet's DomEvent to prevent map dragging from swallowing clicks
+          Lmod.DomEvent.on(el, 'click', (e: any) => {
+            Lmod.DomEvent.stopPropagation(e);
+            Lmod.DomEvent.preventDefault(e);
+            onSelect(kab.key);
+          });
+          Lmod.DomEvent.on(el, 'keydown', (e: any) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              Lmod.DomEvent.stopPropagation(e);
+              Lmod.DomEvent.preventDefault(e);
+              onSelect(kab.key);
+            }
+          });
+        }
+      });
 
       // Tooltip on hover
       const tooltipContent = `<div style="text-align: center;"><strong>${kab.name}</strong><br/><span style="font-size: 11px; color: #666;">${itemCount} item budaya</span></div>`;
@@ -186,21 +216,15 @@ export default function MapSumbar({
       marker.on("mouseover", () => {
         if (!isSel) {
           marker.setIcon(L.divIcon({
-            className: 'custom-pin-icon',
+            className: 'leaflet-div-icon custom-pin-icon',
             html: `
-              <div style="position: relative; width: 30px; height: 40px;">
-                <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <filter id="shadow-hover-${kab.key}" x="-50%" y="-50%" width="200%" height="200%">
-                      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.4"/>
-                    </filter>
-                  </defs>
+              <div style="position: relative; width: 30px; height: 40px; filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.4)); pointer-events: auto;">
+                <svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg" style="pointer-events: auto; cursor: pointer;">
                   <path 
                     d="M15 0C8.373 0 3 5.373 3 12c0 8.25 12 28 12 28s12-19.75 12-28c0-6.627-5.373-12-12-12z" 
                     fill="${fill}" 
                     stroke="#FACC15" 
                     stroke-width="3"
-                    filter="url(#shadow-hover-${kab.key})"
                   />
                   <circle cx="15" cy="12" r="5" fill="white" opacity="0.9"/>
                   <text x="15" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="${fill}">${itemCount}</text>
