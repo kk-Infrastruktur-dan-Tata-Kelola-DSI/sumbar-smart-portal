@@ -19,11 +19,11 @@ export default function DetailDialog({ isOpen, onClose, item }: DetailDialogProp
 
   const buildExplanation = (dest: BudayaItemWithRelations) => {
     const tipe = dest.type ? dest.type.charAt(0).toUpperCase() + dest.type.slice(1) : "Objek";
-    const rating = `${dest.rating} dari ${dest.reviews_count || 0} ulasan`;
-    const tags = dest.tags && dest.tags.length ? `Tag: ${dest.tags.join(", ")}.` : "";
+    // const rating = `${dest.rating} dari ${dest.reviews_count || 0} ulasan`;
+    // const tags = dest.tags && dest.tags.length ? `Tag: ${dest.tags.join(", ")}.` : "";
     const kabName = dest.kabupaten?.name || "";
     const longDesc = dest.long_description || dest.description || "";
-    return `${dest.name} adalah ${tipe.toLowerCase()} di ${kabName}. ${longDesc} Rating pengunjung ${rating}. ${tags}`.trim();
+    return `${dest.name} adalah ${tipe.toLowerCase()} di ${kabName}. ${longDesc} `.trim();
   };
 
   const getTypeIcon = (type: string) => {

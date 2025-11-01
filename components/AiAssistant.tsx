@@ -1,10 +1,12 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Spinner } from "@heroui/spinner";
 import { Alert } from "@heroui/alert";
+import { NotepadText } from "lucide-react";
 import type { AIMessage } from "@/types/ai";
 
 export default function AiAssistant() {
@@ -13,18 +15,37 @@ export default function AiAssistant() {
   const [messages, setMessages] = React.useState<AIMessage[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [showWelcome, setShowWelcome] = React.useState(true);
+  const [greeting, setGreeting] = React.useState<string>("Selamat datang");
   const [timeString, setTimeString] = React.useState<string | null>(null);
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
+  
   React.useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, open]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages, loading, open]);
 
-  // Avoid hydration mismatch by computing time only on client after mount
+  // Get dynamic greeting based on time
   React.useEffect(() => {
-    const t = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    const now = new Date();
+    const hour = now.getHours();
+    const t = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
     setTimeString(t);
+    
+    let greetingText = "Selamat malam";
+    if (hour >= 3 && hour < 10) {
+      greetingText = "Selamat pagi";
+    } else if (hour >= 10 && hour < 15) {
+      greetingText = "Selamat siang";
+    } else if (hour >= 15 && hour < 18) {
+      greetingText = "Selamat sore";
+    }
+    setGreeting(greetingText);
   }, []);
 
   const send = async (text?: string) => {
@@ -33,7 +54,6 @@ export default function AiAssistant() {
     setError(null);
     setLoading(true);
     setInput("");
-    setShowWelcome(false);
 
     // Push user message and placeholder for assistant
     const next = [
@@ -123,27 +143,59 @@ export default function AiAssistant() {
   };
 
   const quickActions = [
-    { label: "Cara mengurus suREK?", text: "Bagaimana cara mengurus suREK?" },
-    { label: "Informasi PPDB Online", text: "Informasi tentang PPDB Online" },
-    { label: "Pengumuman terbaru", text: "Apa pengumuman terbaru?" },
-    { label: "Kontak pemerintah provinsi", text: "Bagaimana cara menghubungi pemerintah provinsi?" },
+    { label: "Tempat wisata di Sumbar", text: "Apa saja tempat wisata menarik di Sumatera Barat?" },
+    { label: "APBD tahun 2025", text: "Berapa anggaran Sumbar tahun 2025?" },
+    { label: "Cara akses PPID", text: "Bagaimana cara mengakses informasi publik melalui PPID?" },
+    { label: "Laporan keuangan daerah", text: "Bagaimana cara melihat laporan keuangan daerah Sumbar?" },
   ];
 
   return (
     <>
+      {/* Floating Notepad Button */}
+      <div className="fixed bottom-24 right-6 z-50 group">
+        <div className="flex items-center gap-2">
+          <span className="bg-warning text-warning-foreground px-4 py-2 rounded-full shadow-lg font-medium text-sm whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
+            Survei Kepuasan Masyarakat
+          </span>
+          <Button
+            color="warning"
+            radius="full"
+            size="lg"
+            onPress={() => {
+              // Add your notepad action here
+              console.log("Notepad clicked");
+            }}
+            isIconOnly
+            aria-label="Open Notepad"
+            className="shadow-lg"
+          >
+            <NotepadText className="w-6 h-6 text-black rotate-[-15deg]" />
+          </Button>
+        </div>
+      </div>
+
       {/* Floating Chat Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          color="warning"
-          radius="full"
-          size="lg"
-          onPress={() => setOpen((v) => !v)}
-          isIconOnly
-          aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
-          className="shadow-lg"
-        >
-          {open ? "✖" : "💬"}
-        </Button>
+      <div className="fixed bottom-6 right-6 z-50 group">
+        <div className="flex items-center gap-2">
+          <span className="bg-warning text-warning-foreground px-4 py-2 rounded-full shadow-lg font-medium text-sm whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
+            Tanyo Mamak
+          </span>
+          <Button
+            color="warning"
+            radius="full"
+            size="lg"
+            onPress={() => setOpen((v) => !v)}
+            isIconOnly
+            aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
+            className="shadow-lg p-3"
+          >
+            {open ? (
+              <span className="text-xl">✖</span>
+            ) : (
+              <Image src="/images/tanyomamak.svg" alt="Tanyo Mamak" width={32} height={32} className="w-8 h-8" />
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Anchored Sliding Panel */}
@@ -155,17 +207,15 @@ export default function AiAssistant() {
             : "bottom-6 opacity-0 translate-y-3 pointer-events-none")
         }
       >
-        <Card className="w-[340px] sm:w-[420px] max-h-[70vh] flex flex-col shadow-2xl">
-          {/* Yellow Header */}
-          <div className="bg-warning text-warning-foreground px-4 py-4 rounded-t-large flex items-start justify-between gap-3">
+        <div className="w-[340px] sm:w-[420px] max-h-[70vh] flex flex-col bg-white dark:bg-background rounded-3xl shadow-2xl border-0 overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-warning to-warning-400 text-warning-foreground px-4 py-4 flex items-start justify-between gap-3">
             <div className="flex items-start gap-3 flex-1">
-              <div className="bg-white rounded-full p-2 mt-1">
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="currentColor"/>
-                </svg>
+              <div className="bg-transparent rounded-full p-2 mt-1">
+                <Image src="/images/tanyomamak.svg" alt="Tanyo Mamak" width={32} height={32} className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-base">Asisten Virtual Sumbar</h3>
+                <h3 className="font-semibold text-base">Tanyo Mamak</h3>
                 <p className="text-xs opacity-90 mt-0.5">Siap membantu 24/7</p>
               </div>
             </div>
@@ -190,78 +240,106 @@ export default function AiAssistant() {
           )}
 
           {/* Messages Area */}
-          <div className="px-4 py-3 flex-1 overflow-auto">
+          <div ref={chatContainerRef} className="px-4 py-3 flex-1 overflow-auto scroll-smooth">
             <div className="flex flex-col gap-3">
               {/* Welcome Message */}
-              {showWelcome && messages.length === 0 && (
-                <div className="mb-2">
-                  <Card className="bg-default-100">
-                    <div className="p-4">
-                      <p className="text-sm leading-relaxed">
-                        Selamat datang di Portal Provinsi Sumatera Barat! Saya asisten virtual Anda. Bagaimana saya dapat membantu Anda hari ini?
+              {messages.length === 0 && (
+                <div className="mb-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                  <div className="bg-gradient-to-br from-warning-50 to-warning-100 dark:from-warning-900/20 dark:to-warning-800/20 rounded-2xl p-4 border-0">
+                    <div>
+                      <p className="text-sm font-semibold mb-1" suppressHydrationWarning>👋 {greeting}!</p>
+                      <p className="text-sm leading-relaxed text-foreground-700">
+                        Saya Tanyo Mamak. Saya siap membantu Anda menemukan informasi tentang wisata, keuangan daerah, layanan digital, dan berbagai informasi lainnya seputar Sumatera Barat. Ada yang bisa saya bantu?
                       </p>
                       <div className="mt-3 text-xs text-foreground-500" suppressHydrationWarning>
                         {timeString ?? ""}
                       </div>
                     </div>
-                  </Card>
-
-                  {/* Quick Actions */}
-                  <div className="mt-4">
-                    <p className="text-xs font-medium text-foreground-600 mb-2">Pertanyaan cepat:</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {quickActions.map((action, idx) => (
-                        <Button
-                          key={idx}
-                          size="sm"
-                          variant="bordered"
-                          className="h-auto py-2 px-3 text-xs text-left justify-start whitespace-normal"
-                          onPress={() => {
-                            setInput(action.text);
-                            send(action.text);
-                          }}
-                          isDisabled={loading}
-                        >
-                          {action.label}
-                        </Button>
-                      ))}
-                    </div>
                   </div>
                 </div>
               )}
+
+              
 
               {/* Chat Messages */}
               {messages.map((m, idx) => {
                 const isUser = m.role === "user";
+                const isLastAssistantMessage = !isUser && idx === messages.length - 1 && loading;
+                
                 return (
-                  <div key={idx} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-                    <Card
-                      className={`max-w-[85%] ${
-                        isUser ? "bg-primary text-primary-foreground" : "bg-default-100"
-                      }`}
+                  <div 
+                    key={idx} 
+                    className={`flex ${isUser ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-2 duration-300`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-2xl p-3 border-0 ${
+                        isUser 
+                          ? "bg-warning text-warning-foreground shadow-sm" 
+                          : "bg-gradient-to-br from-default-50 to-default-100 dark:from-default-100 dark:to-default-200 shadow-sm"
+                      } ${!isUser && isLastAssistantMessage ? "w-[85%] min-w-[240px]" : ""}`}
                     >
-                      <div className="p-3">
+                      {isUser ? (
                         <p className="text-sm whitespace-pre-wrap leading-relaxed">{m.content}</p>
-                      </div>
-                    </Card>
+                      ) : (
+                        <div className="relative">
+                          {!!m.content && (
+                            <div 
+                              className="text-sm whitespace-pre-wrap leading-relaxed prose prose-sm max-w-none"
+                              dangerouslySetInnerHTML={{ __html: m.content }}
+                            />
+                          )}
+                          {isLastAssistantMessage && (
+                            <div className={`${m.content ? "mt-2" : ""} overflow-hidden`}>
+                              <div className="space-y-2 max-w-full">
+                                <div className="h-3 w-[60%] shimmer-line rounded"></div>
+                                <div className="h-3 w-[75%] shimmer-line rounded"></div>
+                                <div className="h-3 w-[28%] shimmer-line rounded"></div>
+                              </div>
+                              <span className="inline-flex items-center gap-1 mt-2 align-baseline">
+                                <span className="typing-dot bg-warning inline-block w-1.5 h-1.5" style={{ animationDelay: "0ms" }} />
+                                <span className="typing-dot bg-warning inline-block w-1.5 h-1.5" style={{ animationDelay: "150ms" }} />
+                                <span className="typing-dot bg-warning inline-block w-1.5 h-1.5" style={{ animationDelay: "300ms" }} />
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}
 
-              {loading && (
-                <div className="flex items-center gap-2 text-sm text-foreground-500">
-                  <Spinner size="sm" color="warning" /> Sedang mengetik...
-                </div>
-              )}
               <div ref={scrollRef} />
             </div>
           </div>
 
+          {/* Quick Actions docked above input */}
+          <div className="px-4 pb-2 pt-1 border-t-0">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+              <p className="text-xs font-semibold text-foreground-700 mb-2">💡 Pertanyaan cepat:</p>
+              <div className="grid grid-cols-2 gap-2">
+                {quickActions.map((action, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setInput(action.text);
+                      send(action.text);
+                    }}
+                    disabled={loading}
+                    className="h-auto py-2.5 px-3 text-xs text-left whitespace-normal bg-white dark:bg-background border border-default-200 rounded-xl hover:border-warning hover:bg-warning/5 hover:shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {action.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Input Area */}
-          <div className="px-4 py-3 border-t flex items-center gap-2">
+          <div className="px-4 py-3 bg-default-50 dark:bg-default-100 flex items-center gap-2 border-0">
             <input
               type="text"
-              className="flex-1 bg-default-100 rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-warning"
+              className="flex-1 bg-white dark:bg-background rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-warning border border-default-200 transition-all duration-200 hover:border-warning/50 disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Ketik pertanyaan Anda..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -279,12 +357,12 @@ export default function AiAssistant() {
               radius="full"
               onPress={() => send()}
               isDisabled={loading || !input.trim()}
-              className="shadow-md"
+              className="transition-transform duration-200 hover:scale-110 active:scale-95 shadow-md"
             >
               {loading ? <Spinner size="sm" color="current" /> : "➤"}
             </Button>
           </div>
-        </Card>
+        </div>
       </div>
     </>
   );
