@@ -111,10 +111,10 @@ export const Navbar = () => {
                             className="h-8 sm:h-10 w-auto flex-shrink-0" 
                         />
                         <div className="flex flex-col items-start min-w-0">
-                            <NextLink href="/" className="font-bold text-inherit text-xs sm:text-base whitespace-nowrap">
+                            <NextLink href="/" className="font-bold text-inherit text-xs sm:text-base whitespace-nowrap tracking-tighter">
                                 {siteConfig.name}
                             </NextLink>
-                            <span className="text-[10px] sm:text-sm text-neutral-500 hidden md:block truncate w-full">
+                            <span className="text-[10px] sm:text-sm text-neutral-500 hidden md:block w-full tracking-tight">
                                 {siteConfig.description}
                             </span>
                         </div>

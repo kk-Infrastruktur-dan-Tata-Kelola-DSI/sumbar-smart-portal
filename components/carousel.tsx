@@ -1,32 +1,35 @@
 "use client";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
+import Image from "next/image";
+
+import placeholderImage from '@/public/images/placholder-vertical.jpg'
 
 const cards = [
   {
     id: 1,
     title: "Longsor di Sumbar",
-    img: "",
+    img: placeholderImage,
   },
   {
     id: 2,
     title: "Banjir di Pesisir Selatan",
-    img: "",
+    img: placeholderImage,
   },
   {
     id: 3,
     title: "Masyarakat Mentawai Mengungkap",
-    img: "",
+    img: placeholderImage,
   },
   {
     id: 4,
     title: "Wali Kota Padang Menyampaikan",
-    img: "",
+    img: placeholderImage,
   },
   {
     id: 5,
     title: "Festival Budaya Minang Digelar",
-    img: "",
+    img: placeholderImage,
   },
 ];
 
@@ -316,28 +319,16 @@ export default function StackedCarousel() {
                 <div className={`relative w-[200px] h-[280px] sm:w-[240px] sm:h-[320px] md:w-[280px] md:h-[380px] lg:w-[300px] lg:h-[400px] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white ${
                   isActive ? 'ring-2 md:ring-4 ring-yellow-400 ring-offset-1 md:ring-offset-2' : ''
                 }`}>
-                  {/* Placeholder for Next.js Image component */}
-                  {/* When using in Next.js, replace the div below with:
                   <Image
                     src={card.img || "/placeholder.jpg"}
                     alt={card.title}
                     fill
                     className={`object-cover transition-all duration-700 ${
-                      isActive ? "blur-0 brightness-100" : "blur-sm brightness-75"
+                      isActive ? "blur-0 brightness-100" : "blur-[2px] md:blur-sm brightness-[0.7]"
                     }`}
                     priority={isActive}
                     quality={isActive ? 90 : 70}
                   />
-                  */}
-                  
-                  {/* Temporary placeholder */}
-                  <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 transition-all duration-700 ${
-                    isActive ? "blur-0 brightness-100" : "blur-[2px] md:blur-sm brightness-[0.7]"
-                  }`}>
-                    <div className="text-5xl sm:text-6xl md:text-7xl font-bold text-white opacity-20">
-                      {card.id}
-                    </div>
-                  </div>
                   
                   {/* Overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
