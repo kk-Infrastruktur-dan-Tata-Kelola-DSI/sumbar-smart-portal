@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 import { fontSans } from "@/config/fonts";
 import { ThemeSwitch } from "@/components/theme-switch";
+import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Sumbar Smart Portal",
@@ -33,7 +34,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <ThemeSwitch className="fixed top-4 right-4" />
+          <Navbar/>
           <main className="container mx-auto max-w-4xl px-6 py-8">
             {children}
           </main>
