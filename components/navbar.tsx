@@ -35,7 +35,7 @@ export const Navbar = () => {
         { name: "Beranda", href: "/" },
         { name: "Profil", href: "#" },
         { name: "Informasi", href: "#" },
-        { name: "Pengumuman", href: "#" },
+        { name: "Pengumuman", href: "/pengumuman" },
         { name: "Anti Hoax", href: "#" },
         { name: "Informasi Layanan", href: "#" },
         { name: "Keuangan Daerah", href: "#" },

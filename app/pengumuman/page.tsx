@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import CardPengumuman from "@/components/card_pengumuman";
 
 const pengumumanData = [
@@ -68,7 +69,7 @@ const pengumumanData = [
 
 export default function PengumumanPage() {
   return (
-    <div className="container mx-auto px-2 py-8 bg-gray-50 min-h-screen">
+    <div className="container mx-auto px-0 py-8 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-900 mb-8 px-2">Pengumuman</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {pengumumanData.map((pengumuman) => (
