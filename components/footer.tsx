@@ -12,12 +12,8 @@ export default function Footer() {
           {/* Kolom 1 - Logo dan Deskripsi */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 p-[2px] bg-gradient-to-tr from-amber-500 via-orange-500 to-red-500 rounded-lg">
-                <div className="w-full h-full bg-[#1a2332] rounded-lg flex items-center justify-center font-bold text-amber-400 text-sm">
-                  SB
-                </div>
-              </div>
-              <h2 className="ml-3 text-white font-semibold text-base">Sumbar Province</h2>
+              <img src="/images/sumbarmap.svg" alt="Sumatera Barat" className="w-10 h-10 object-contain" />
+              <h2 className="ml-3 text-white font-semibold text-base">Sumatera Barat</h2>
             </div>
             <p className="text-sm leading-relaxed text-gray-400 mb-6">
               Portal digital resmi Pemerintah Provinsi Sumatera Barat. Melayani dengan teknologi, berinovasi untuk masa depan.

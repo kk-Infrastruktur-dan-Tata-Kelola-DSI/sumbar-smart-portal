@@ -22,8 +22,7 @@ import {
 import Image from "next/image";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
-import { Bell, Search, Globe, ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
@@ -31,6 +30,7 @@ import React from "react";
 
 import { siteConfig } from "@/config/site";
 import logoImage from '@/public/images/logo.png';
+import MinangQuote from "./MinangQuote";
 
 export const Navbar = () => {
     const pathname = usePathname();
@@ -39,19 +39,6 @@ export const Navbar = () => {
     React.useEffect(() => {
         setMounted(true);
     }, []);
-
-    const searchInput = (
-        <Input
-            aria-label="Search"
-            classNames={{
-                inputWrapper: "bg-default-100",
-                input: "text-sm",
-            }}
-            startContent={<Search className="w-4 h-4 text-gray-500 flex-shrink-0" />}
-            placeholder="Cari Informasi..."
-            className="w-full"
-        />
-    );
 
     const profilDropdownItems = [
         { name: "Visi & Misi", href: "/profile" },
@@ -110,17 +97,17 @@ export const Navbar = () => {
                     </NavbarBrand>
                 </NavbarContent>
 
-                {/* Kanan */}
+                {/* Kanan: Minang Quote */}
                 <NavbarContent justify="end" className="gap-1 flex-shrink-0">
-                    <NavbarItem className="hidden lg:flex w-auto max-w-[300px]">
-                        {searchInput}
+                    <NavbarItem className="hidden lg:flex">
+                        <MinangQuote />
                     </NavbarItem>
                 </NavbarContent>
 
                 {/* Mobile/Tablet Menu */}
                 <NavbarMenu className="pt-4 px-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                    <NavbarMenuItem className="lg:hidden mb-3">
-                        {searchInput}
+                    <NavbarMenuItem className="lg:hidden mb-3 pb-3 border-b border-divider">
+                        <MinangQuote />
                     </NavbarMenuItem>
                     
                     {navLinks.map((item, index) => {

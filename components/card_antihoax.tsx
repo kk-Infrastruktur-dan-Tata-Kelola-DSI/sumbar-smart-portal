@@ -52,7 +52,7 @@ export default function CardAntiHoax({ jenis, judul, penjelasan, tanggal, onClic
     
     return (
         <Card 
-            className="w-full max-w-sm hover:shadow-lg transition-shadow cursor-pointer"
+            className="w-full max-w-sm border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             isPressable
             onPress={onClick}
         >
