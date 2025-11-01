@@ -8,8 +8,9 @@ export async function middleware(request: NextRequest) {
 
 // Exclude Next.js internals and static assets from middleware
 export const config = {
+  // Exclude ALL API routes and Next internals from middleware
+  // to avoid interfering with route handlers (including POST requests).
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
   ],
 };
-
