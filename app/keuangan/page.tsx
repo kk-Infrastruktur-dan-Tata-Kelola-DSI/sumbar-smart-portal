@@ -3,8 +3,17 @@
 import React from "react";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
-import { Progress } from "@heroui/progress";
 import { Chip } from "@heroui/chip";
+import { Download } from "lucide-react";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 export default function KeuanganDaerahPage() {
   const statisticCards = [
@@ -66,32 +75,37 @@ export default function KeuanganDaerahPage() {
       category: "Belanja Pegawai",
       percentage: 72,
       label: "72% dari total belanja",
-      color: "success" as const,
+      color: "default" as const,
     },
     {
       category: "Belanja Barang & Jasa",
       percentage: 83,
-      label: "83% daeterna bekenjo",
-      color: "success" as const,
+      label: "83% dari total belanja",
+      color: "default" as const,
     },
     {
       category: "Belanja Modal",
       percentage: 33,
-      label: "20% car notul bake'yo",
-      color: "warning" as const,
+      label: "33% dari total belanja",
+      color: "default" as const,
     },
     {
       category: "Belanja Lainnya",
       percentage: 83,
-      label: "7% daeterna bekenjo",
-      color: "success" as const,
+      label: "7% dari total belanja",
+      color: "default" as const,
     },
   ];
 
+  const expendituresChart = expenditures.map((e) => ({
+    name: e.category,
+    nilai: e.percentage,
+  }));
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className=" text-black">
+      <div className="text-black">
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Keuangan Daerah</h1>
           <p className="text-lg opacity-90 max-w-3xl mx-auto">
@@ -104,10 +118,10 @@ export default function KeuanganDaerahPage() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {statisticCards.map((stat, idx) => (
-            <Card key={idx} className="border-2 border-warning shadow-lg">
-              <div className="p-8 text-center">
-                <h2 className="text-5xl font-bold text-warning mb-2">{stat.value}</h2>
-                <p className="text-sm text-warning-600 font-medium mb-3">{stat.label}</p>
+            <Card key={idx} className="border border-gray-200 shadow-sm">
+              <div className="p-6 text-center">
+                <h2 className="text-4xl font-semibold text-foreground mb-1">{stat.value}</h2>
+                <p className="text-xs text-foreground-500 mb-1">{stat.label}</p>
                 <p className="text-foreground-600 text-sm">{stat.description}</p>
               </div>
             </Card>
@@ -120,10 +134,10 @@ export default function KeuanganDaerahPage() {
             <h2 className="text-2xl font-bold mb-6">Laporan & Dokumen</h2>
             <div className="space-y-4">
               {reports.map((report, idx) => (
-                <Card key={idx} className="shadow-md hover:shadow-lg transition-shadow">
+                <Card key={idx} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                   <div className="p-4 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4 flex-1">
-                      <div className="bg-danger rounded-full p-3 flex-shrink-0">
+                      <div className="bg-amber-500 rounded-full p-3 flex-shrink-0">
                         <svg
                           className="w-6 h-6 text-white"
                           fill="currentColor"
@@ -133,7 +147,10 @@ export default function KeuanganDaerahPage() {
                         </svg>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm mb-1 truncate">{report.title}</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-sm truncate">{report.title}</h3>
+                          <Chip size="sm" color="warning" variant="flat" className="hidden sm:inline-flex">PDF</Chip>
+                        </div>
                         <p className="text-xs text-foreground-500">
                           {report.size} • {report.date}
                         </p>
@@ -141,18 +158,11 @@ export default function KeuanganDaerahPage() {
                     </div>
                     <Button
                       color="warning"
+                      variant="flat"
                       size="sm"
                       className="flex-shrink-0"
-                      startContent={
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                          <path
-                            fillRule="evenodd"
-                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      }
+                      startContent={<Download size={16} />}
+                     
                     >
                       Download
                     </Button>
@@ -162,49 +172,40 @@ export default function KeuanganDaerahPage() {
             </div>
           </div>
 
-          {/* Expenditures Section */}
+          {/* Expenditures Section with Chart */}
           <div>
             <h2 className="text-2xl font-bold mb-6">Realisasi Belanja</h2>
-            <div className="space-y-4">
-              {expenditures.map((item, idx) => (
-                <Card key={idx} className="border-2 border-warning shadow-md">
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-base">{item.category}</h3>
-                      <Chip color={item.color} size="sm" variant="flat">
-                        {item.percentage}%
-                      </Chip>
-                    </div>
-                    <Progress
-                      value={item.percentage}
-                      color={item.color}
-                      size="md"
-                      className="mb-2"
-                    />
-                    <p className="text-xs text-foreground-500">{item.label}</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            <Card className="border border-gray-200 shadow-sm">
+              <div className="p-4">
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={expendituresChart} margin={{ top: 12, right: 12, left: 0, bottom: 12 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} tickMargin={8} />
+                      <YAxis tick={{ fontSize: 12 }} unit="%" />
+                      <Tooltip cursor={{ fill: "rgba(0,0,0,0.03)" }} formatter={(v: number) => [`${v}%`, "Realisasi"]} />
+                      <Bar dataKey="nilai" radius={[4, 4, 0, 0]} fill="#f59e0b" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <p className="text-xs text-foreground-500 mt-3">Komposisi realisasi belanja per kategori (%).</p>
+              </div>
+            </Card>
           </div>
         </div>
 
-        {/* Additional Info */}
-        <Card className="mt-12 bg-gradient-to-r from-warning-50 to-warning-100 border-2 border-warning">
-          <div className="p-8 text-center">
-            <h3 className="text-xl font-bold text-warning-900 mb-3">
-              Transparansi Anggaran
-            </h3>
-            <p className="text-foreground-700 mb-6 max-w-2xl mx-auto">
-              Pemerintah Provinsi Sumatera Barat berkomitmen untuk mengelola keuangan daerah
-              secara transparan dan akuntabel. Semua laporan keuangan dapat diakses oleh
-              masyarakat.
+        {/* CTA */}
+        <Card className="mt-12 border border-gray-200 shadow-sm">
+          <div className="p-6 text-center">
+            <h3 className="text-lg font-semibold mb-2">Transparansi Anggaran</h3>
+            <p className="text-sm text-foreground-600 mb-4 max-w-2xl mx-auto">
+              Pemerintah Provinsi Sumatera Barat berkomitmen pada pengelolaan keuangan daerah yang transparan dan akuntabel.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button color="warning" variant="solid" size="lg">
+              <Button color="default" variant="solid" size="md">
                 Lihat Semua Laporan
               </Button>
-              <Button color="default" variant="bordered" size="lg">
+              <Button color="default" variant="bordered" size="md">
                 Hubungi BPKD
               </Button>
             </div>
